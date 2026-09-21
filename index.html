@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#6C5CE7" />
+  <title>Pariksha — AI Test App</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- SPLASH SCREEN -->
+  <div id="splash" class="screen active">
+    <div class="splash-inner">
+      <div class="logo-circle">📚</div>
+      <h1 class="splash-title">परीक्षा</h1>
+      <p class="splash-sub">AI Test App for Students</p>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- WELCOME SCREEN (after connection check) -->
+  <div id="welcome" class="screen">
+    <div class="welcome-inner">
+      <div class="check-badge">✅</div>
+      <h2>Connected!</h2>
+      <p>Supabase से connection successful हो गया.</p>
+      <p class="muted">Part 2 में login स्क्रीन आएगी.</p>
+      <div id="status-box" class="status-box">Checking...</div>
+    </div>
+  </div>
+
+  <!-- ERROR SCREEN -->
+  <div id="error" class="screen">
+    <div class="welcome-inner">
+      <div class="check-badge error">⚠️</div>
+      <h2>Connection Failed</h2>
+      <p id="error-msg" class="muted">—</p>
+      <p class="muted small">Check करो: <code>js/config.js</code> में URL और KEY सही हैं?</p>
+    </div>
+  </div>
+
+  <!-- Supabase JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Our scripts (order matters) -->
+  <script src="js/config.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
