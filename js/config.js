@@ -15,9 +15,11 @@ const APP_CONFIG = {
   tagline: "AI Test App for Students",
   version: "1.0.0",
   defaultLang: "hi",
-  classes: [6, 7, 8, 9, 10, 11, 12],
-  boards: ["CBSE", "ICSE", "State Board"],
   guestStorageKey: "prex_guest_id",
   guestFlagKey: "prex_is_guest",
   userCacheKey: "prex_user_cache",
+  paperCacheKey: "prex_paper_",
 };
+
+// AI Edge Function name (Supabase में यही naam रखना)
+const AI_FUNCTION_URL = SUPABASE_URL + "/functions/v1/generate-paper";
