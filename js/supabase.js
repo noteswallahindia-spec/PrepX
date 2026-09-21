@@ -1,48 +1,62 @@
 /* ============================================
-   SUPABASE CLIENT
-   Connection create करता है
+   GUEST MODE
+   सब data phone में store, Supabase पर सिर्फ count
    ============================================ */
 
-let supabase = null;
+const Guest = {
+  // Guest ID generate + save
+  init() {
+    let id = localStorage.getItem(APP_CONFIG.guestStorageKey);
+    if (!id) {
+      id = "guest_" + Date.now() + "_" + Math.random().toString(36).slice(2, 9);
+      localStorage.setItem(APP_CONFIG.guestStorageKey, id);
 
-function initSupabase() {
-  try {
-    if (SUPABASE_URL === "YOUR_SUPABASE_URL_HERE") {
-      throw new Error("config.js में SUPABASE_URL paste नहीं किया");
+      // Supabase पर सिर्फ count increment (best effort)
+      if (supabase) {
+        supabase.rpc("increment_guest_count").then(() => {}).catch(() => {});
+      }
     }
-    if (SUPABASE_ANON_KEY === "YOUR_SUPABASE_ANON_KEY_HERE") {
-      throw new Error("config.js में SUPABASE_ANON_KEY paste नहीं किया");
+    return id;
+  },
+
+  getId() {
+    return localStorage.getItem(APP_CONFIG.guestStorageKey);
+  },
+
+  isGuest() {
+    return localStorage.getItem(APP_CONFIG.guestFlagKey) === "1";
+  },
+
+  setGuest(flag) {
+    if (flag) {
+      localStorage.setItem(APP_CONFIG.guestFlagKey, "1");
+      this.init();
+    } else {
+      localStorage.removeItem(APP_CONFIG.guestFlagKey);
     }
+  },
 
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        storage: window.localStorage,
-      },
-    });
+  // Guest profile — phone में
+  saveProfile(profile) {
+    const data = {
+      ...profile,
+      id: this.getId(),
+      is_guest: true,
+      created_at: new Date().toISOString(),
+    };
+    localStorage.setItem(APP_CONFIG.userCacheKey, JSON.stringify(data));
+    return data;
+  },
 
-    return { ok: true };
-  } catch (e) {
-    return { ok: false, error: e.message };
-  }
-}
+  getProfile() {
+    const raw = localStorage.getItem(APP_CONFIG.userCacheKey);
+    if (!raw) return null;
+    try { return JSON.parse(raw); } catch { return null; }
+  },
 
-// Test connection by hitting a simple endpoint
-async function testConnection() {
-  if (!supabase) return { ok: false, error: "Supabase not initialized" };
-
-  try {
-    // Try to read the exams table (empty is fine, we just want to know if reachable)
-    const { error } = await supabase.from("exams").select("id").limit(1);
-
-    if (error) {
-      // PGRST116 = no rows, which is fine
-      if (error.code === "PGRST116") return { ok: true };
-      throw error;
-    }
-    return { ok: true };
-  } catch (e) {
-    return { ok: false, error: e.message || "Connection failed" };
-  }
-}
+  clear() {
+    localStorage.removeItem(APP_CONFIG.userCacheKey);
+    localStorage.removeItem(APP_CONFIG.guestFlagKey);
+    // guest ID नहीं हटाते — अगर वो दोबारा guest बनना चाहे
+  },
+};
