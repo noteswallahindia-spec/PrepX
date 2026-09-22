@@ -37,7 +37,6 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .icon { display: inline-flex; align-items: center; justify-content: center; }
 .icon svg { width: 100%; height: 100%; }
 
-/* SPLASH */
 #splash { background: linear-gradient(135deg, #6C5CE7 0%, #A29BFE 100%); color: #fff; display: none; align-items: center; justify-content: center; }
 #splash.active { display: flex; }
 .splash-inner { text-align: center; }
@@ -48,7 +47,6 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .loader-bar { width: 180px; height: 4px; margin: 0 auto; background: rgba(255,255,255,.22); border-radius: 4px; overflow: hidden; }
 .loader-fill { height: 100%; width: 40%; background: #fff; border-radius: 4px; animation: slide 1.2s ease-in-out infinite; }
 
-/* WELCOME */
 .welcome-wrap { width: 100%; max-width: 400px; text-align: center; animation: slideUp .5s ease; }
 .welcome-icon { width: 88px; height: 88px; margin: 0 auto 24px; background: linear-gradient(135deg, rgba(108,92,231,.12), rgba(162,155,254,.08)); border-radius: 26px; display: flex; align-items: center; justify-content: center; }
 .welcome-icon svg { width: 48px; height: 48px; }
@@ -59,7 +57,6 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .feature-item { display: flex; align-items: center; gap: 12px; padding: 8px 0; font-size: 14px; font-weight: 500; }
 .feature-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
 
-/* BUTTONS */
 .btn-primary { width: 100%; background: var(--primary); color: #fff; border: 0; padding: 16px 20px; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform .15s; box-shadow: 0 6px 20px rgba(108,92,231,.28); }
 .btn-primary:active { transform: scale(.98); background: var(--primary-dark); }
 .btn-primary:disabled { opacity: .6; cursor: not-allowed; }
@@ -77,7 +74,6 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .back-btn { background: var(--card); border: 1.5px solid var(--border); width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-bottom: 20px; color: var(--text); padding: 0; }
 .back-btn svg { width: 18px; height: 18px; }
 
-/* AUTH */
 #auth { background: var(--bg); padding: 20px; }
 .auth-wrap { max-width: 420px; margin: 0 auto; padding-top: 8px; animation: slideUp .4s ease; }
 .auth-header { margin-bottom: 24px; }
@@ -100,7 +96,6 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
 .guest-note { font-size: 12px; color: var(--muted); text-align: center; margin-top: 12px; }
 
-/* SETUP MODE */
 #setup-mode { display: none; align-items: center; justify-content: center; padding: 24px; background: var(--bg); }
 #setup-mode.active { display: flex; }
 .setup-wrap { width: 100%; max-width: 440px; animation: slideUp .4s ease; }
@@ -115,7 +110,6 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .mode-title { font-size: 17px; font-weight: 700; }
 .mode-sub { font-size: 13px; color: var(--muted); font-weight: 500; }
 
-/* SETUP SCHOOL/COMP */
 #setup-school, #setup-comp { background: var(--bg); padding: 24px 20px 40px; }
 .step-indicator { display: flex; justify-content: center; gap: 8px; margin-bottom: 28px; }
 .step { width: 32px; height: 4px; border-radius: 4px; background: var(--border); transition: background .3s; }
@@ -133,7 +127,6 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .cat-item svg { width: 18px; height: 18px; color: var(--muted); }
 .cat-title { font-size: 18px; font-weight: 700; margin: 16px 0 12px; }
 
-/* APP SCREENS */
 .app-screen { background: var(--bg); padding-bottom: 90px; }
 .app-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 20px 12px; background: var(--bg); position: sticky; top: 0; z-index: 10; }
 .header-left { display: flex; align-items: center; gap: 12px; }
@@ -145,14 +138,12 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .icon-btn svg { width: 18px; height: 18px; }
 .home-content { padding: 8px 20px 24px; }
 
-/* PROFILE CARD */
 .profile-card { background: var(--card); border-radius: 16px; padding: 16px 20px; box-shadow: var(--shadow-sm); margin-bottom: 16px; }
 .pc-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
 .pc-row:last-child { border-bottom: 0; }
 .pc-label { color: var(--muted); font-weight: 500; }
 .pc-value { font-weight: 700; }
 
-/* CTA */
 .cta-big { width: 100%; background: linear-gradient(135deg, var(--primary), var(--primary-light)); border: 0; border-radius: 20px; padding: 22px 20px; display: flex; align-items: center; gap: 14px; cursor: pointer; font-family: inherit; text-align: left; color: #fff; box-shadow: 0 8px 28px rgba(108,92,231,.3); margin-bottom: 20px; }
 .cta-big:active { transform: scale(.98); }
 .cta-icon { width: 48px; height: 48px; background: rgba(255,255,255,.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -170,7 +161,6 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .fc-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
 .fc-sub { font-size: 11.5px; color: var(--muted); font-weight: 500; }
 
-/* SHOP */
 .search-bar { background: var(--card); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; border: 1.5px solid var(--border); }
 .search-bar svg { width: 18px; height: 18px; color: var(--muted); flex-shrink: 0; }
 .search-bar input { flex: 1; border: 0; outline: none; font-size: 14px; font-family: inherit; background: transparent; color: var(--text); }
@@ -198,7 +188,6 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .featured-card .product-img { aspect-ratio: 16/10; }
 .featured-card .product-title { font-size: 14px; }
 
-/* PRODUCT DETAIL */
 .product-detail-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 16px; margin-bottom: 12px; background: #EEE; }
 .pd-badge { display: inline-block; background: var(--primary); color: #fff; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; margin-bottom: 10px; }
 .pd-title { font-size: 20px; font-weight: 800; line-height: 1.3; margin-bottom: 8px; }
@@ -210,7 +199,6 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .pd-section-title { font-size: 16px; font-weight: 700; margin: 20px 0 6px; }
 .pd-section-sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
 
-/* MARKETPLACE */
 .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
 .market-btn { border: 0; border-radius: 14px; padding: 16px 14px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-family: inherit; text-align: left; min-height: 90px; }
 .market-btn:active { transform: scale(.97); }
@@ -232,7 +220,6 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .pd-feature svg { width: 20px; height: 20px; color: var(--primary); margin-bottom: 6px; }
 .pd-feature-label { font-size: 11px; font-weight: 600; }
 
-/* BOTTOM NAV */
 .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1px solid var(--border); display: flex; padding: 8px 0 max(8px, env(safe-area-inset-bottom)); z-index: 100; box-shadow: 0 -4px 20px rgba(108,92,231,.06); }
 .nav-item { flex: 1; background: transparent; border: 0; padding: 6px; cursor: pointer; color: var(--muted); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: inherit; position: relative; }
 .nav-item .icon { width: 24px; height: 24px; }
@@ -240,4 +227,8 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .nav-item.active { color: var(--primary); }
 .nav-item.active::before { content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 24px; height: 3px; background: var(--primary); border-radius: 0 0 4px 4px; }
 .nav-item.center { flex: 0 0 auto; padding: 0 10px; }
-.nav-center-icon { width: 52px; height: 52px; border-radius: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); display: flex; align-items: center; justify-content: center; color: #fff; margin-top: -20px; box
+.nav-center-icon { width: 52px; height: 52px; border-radius: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); display: flex; align-items: center; justify-content: center; color: #fff; margin-top: -20px; box-shadow: 0 8px 20px rgba(108,92,231,.35); }
+.nav-center-icon svg { width: 26px; height: 26px; }
+.nav-item.center .nav-item-label { margin-top: 2px; }
+
+.toast { position: fixed; bottom: 110px; left: 50%; tran
