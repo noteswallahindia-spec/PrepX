@@ -2,6 +2,9 @@
 // SUPABASE CLIENT
 // ============================================
 
+// पहले library को बचा लो, बाद में overwrite होने से पहले
+const supabaseLib = window.supabase;
+
 var supabase = null;
 
 function initSupabase() {
@@ -13,7 +16,7 @@ function initSupabase() {
       throw new Error("config.js में SUPABASE_ANON_KEY paste नहीं किया");
     }
 
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    supabase = supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       auth: {
         persistSession: true,
         autoRefreshToken: true,
