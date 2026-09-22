@@ -382,7 +382,7 @@
   </div>
 </div>
 
-<!-- ========== EXAM ROOM ========== -->
+<!-- EXAM ROOM -->
 <div id="exam-room" class="screen">
   <div class="exam-room-wrap">
     <div class="er-topbar">
@@ -403,12 +403,9 @@
         <span class="er-q-num" id="er-q-num">Q1 / 10</span>
         <span class="er-q-marks" id="er-q-marks">1 mark</span>
       </div>
-
       <div class="er-q-type" id="er-q-type">MCQ</div>
       <div class="er-q-text" id="er-q-text">Question will appear here</div>
-
       <div class="er-options" id="er-options"></div>
-
       <div class="er-subjective" id="er-subjective" style="display:none;">
         <textarea id="er-answer-input" placeholder="अपना उत्तर यहाँ लिखो..." rows="8"></textarea>
         <div class="er-word-count" id="er-word-count">0 words</div>
@@ -420,11 +417,9 @@
         <span id="er-prev-icon"></span>
         <span>Prev</span>
       </button>
-
       <button class="er-mark-btn" id="btn-er-mark">
         <span id="er-mark-icon"></span>
       </button>
-
       <button class="er-nav-btn primary" id="btn-er-next">
         <span id="er-next-text">Next</span>
         <span id="er-next-icon"></span>
@@ -440,22 +435,18 @@
       <h3>Questions</h3>
       <button class="er-icon-btn" id="btn-palette-close"></button>
     </div>
-
     <div class="palette-legend">
       <div class="legend-item"><span class="legend-dot answered"></span> Answered</div>
       <div class="legend-item"><span class="legend-dot notanswered"></span> Not answered</div>
       <div class="legend-item"><span class="legend-dot marked"></span> Marked</div>
       <div class="legend-item"><span class="legend-dot"></span> Not visited</div>
     </div>
-
     <div class="palette-grid" id="palette-grid"></div>
-
     <div class="palette-summary" id="palette-summary">
       <div><strong>Answered:</strong> <span id="sum-answered">0</span></div>
       <div><strong>Not answered:</strong> <span id="sum-notanswered">0</span></div>
       <div><strong>Marked:</strong> <span id="sum-marked">0</span></div>
     </div>
-
     <button class="btn-primary" id="btn-submit-from-palette">Submit Test</button>
   </div>
 </div>
@@ -465,7 +456,7 @@
   <div class="modal-box">
     <div class="modal-icon" id="submit-modal-icon"></div>
     <h3 class="modal-title">Test Submit करें?</h3>
-    <p class="modal-text">Submit के बाद answer change नहीं हो सकेगा.</p>
+    <p class="modal-text">AI तुम्हारे subjective answers भी check करेगा.</p>
     <div class="submit-stats" id="submit-stats"></div>
     <div class="modal-actions">
       <button class="btn-secondary" id="btn-cancel-submit">Cancel</button>
@@ -482,7 +473,7 @@
   <div class="modal-box">
     <div class="modal-icon warn" id="exit-modal-icon"></div>
     <h3 class="modal-title">Test छोड़ना है?</h3>
-    <p class="modal-text">तुम्हारा progress save हो जाएगा, बाद में resume कर सकोगे.</p>
+    <p class="modal-text">Progress save हो जाएगा, बाद में resume कर सकोगे.</p>
     <div class="modal-actions">
       <button class="btn-secondary" id="btn-cancel-exit">रुको</button>
       <button class="btn-primary danger" id="btn-confirm-exit">हाँ, छोड़ो</button>
@@ -495,31 +486,34 @@
   <div class="modal-box">
     <div class="modal-icon warn" id="timeup-icon"></div>
     <h3 class="modal-title">समय समाप्त!</h3>
-    <p class="modal-text">तुम्हारा test auto-submit हो रहा है...</p>
+    <p class="modal-text">Test auto-submit हो रहा है...</p>
     <button class="btn-primary" id="btn-timeup-continue">ठीक है</button>
   </div>
 </div>
 
-<!-- RESULT -->
-<div id="result" class="screen flex">
-  <div class="welcome-wrap">
-    <div class="welcome-icon" id="res-icon"></div>
-    <h1 class="welcome-title">Test Submitted!</h1>
-    <p class="welcome-text">तुम्हारा result ready है</p>
-
-    <div class="profile-card" style="text-align:center;padding:24px;">
-      <div style="font-size:44px;font-weight:800;color:var(--primary);margin-bottom:8px;" id="res-score">0 / 0</div>
-      <div class="muted" id="res-percent">0%</div>
-      <div class="muted" style="font-size:12px;margin-top:4px;">Time: <span id="res-time">—</span></div>
-    </div>
-
-    <div class="profile-card" style="text-align:left;" id="res-breakdown"></div>
-
-    <p class="welcome-text" style="font-size:13px;">Full analysis + certificate Part 5 में आएगा</p>
-
-    <button class="btn-primary" id="btn-result-home">Home पर जाओ</button>
+<!-- EVALUATING -->
+<div id="evaluating" class="screen flex">
+  <div class="gen-wrap">
+    <div class="gen-icon" id="eval-icon"></div>
+    <h2 class="gen-title">AI answer check कर रहा है</h2>
+    <p class="gen-sub" id="eval-status">Subjective answers evaluate हो रहे हैं...</p>
+    <div class="gen-bar"><div class="gen-bar-fill" style="width:70%;animation:pulse 1.5s infinite;"></div></div>
+    <div class="gen-status">इसमें 10-20 सेकंड लग सकते हैं</div>
   </div>
 </div>
 
-<!-- ERROR -->
-<div i
+<!-- RESULT -->
+<div id="result" class="screen">
+  <div class="result-wrap">
+    <div class="rs-hero">
+      <div class="rs-icon-box" id="rs-icon"></div>
+      <h1 class="rs-title">Test Complete!</h1>
+      <div class="rs-score-big" id="rs-score">0 / 0</div>
+      <div class="rs-percent" id="rs-percent">0%</div>
+      <div class="rs-grade" id="rs-grade">Grade: —</div>
+      <div class="rs-time-row">
+        <span id="rs-time">—</span>
+      </div>
+    </div>
+
+   
