@@ -44,6 +44,10 @@ html, body {
 @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pop { 0% { transform: scale(0); } 70% { transform: scale(1.1); } 100% { transform: scale(1); } }
 @keyframes slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(450%); } }
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.06); opacity: .85; }
+}
 
 .icon { display: inline-flex; align-items: center; justify-content: center; }
 .icon svg { width: 100%; height: 100%; }
@@ -100,9 +104,18 @@ html, body {
 }
 .btn-primary:active { transform: scale(.98); background: var(--primary-dark); }
 .btn-primary:disabled { opacity: .6; cursor: not-allowed; }
-.btn-primary.danger { background: var(--error); box-shadow: 0 6px 20px rgba(255,90,95,.3); }
 .btn-icon { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; }
 .btn-icon svg { width: 100%; height: 100%; }
+
+.btn-secondary {
+  background: var(--card); color: var(--text);
+  border: 1.5px solid var(--border);
+  padding: 15px 16px; border-radius: 14px;
+  font-size: 14px; font-weight: 700;
+  cursor: pointer; font-family: inherit;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-secondary:active { background: var(--bg); }
 
 .btn-social {
   width: 100%; background: var(--card); color: var(--text);
@@ -344,13 +357,4 @@ html, body {
   gap: 3px; font-family: inherit; position: relative;
 }
 .nav-item .icon { width: 24px; height: 24px; }
-.nav-item-label { font-size: 10px; font-weight: 600; }
-.nav-item.active { color: var(--primary); }
-.nav-item.active::before {
-  content: ""; position: absolute; top: 0; left: 50%;
-  transform: translateX(-50%); width: 24px; height: 3px;
-  background: var(--primary); border-radius: 0 0 4px 4px;
-}
-.nav-item.center { flex: 0 0 auto; padding: 0 10px; }
-.nav-center-icon {
-  wi
+.na
