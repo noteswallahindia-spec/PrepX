@@ -1,5 +1,5 @@
 // ============================================
-// PREX MAIN APP - Part 1
+// PREX MAIN APP
 // ============================================
 
 const State = {
@@ -11,9 +11,7 @@ const State = {
   setupStep: 1,
 };
 
-// ============================================
 // SCREEN ROUTER
-// ============================================
 const Screen = {
   show(id) {
     document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
@@ -28,9 +26,7 @@ const Screen = {
   },
 };
 
-// ============================================
 // HELPERS
-// ============================================
 function toast(msg, type = "") {
   const el = document.getElementById("toast");
   el.textContent = msg;
@@ -42,9 +38,7 @@ const setText = (id, t) => { const e = document.getElementById(id); if (e) e.tex
 const setHTML = (id, h) => { const e = document.getElementById(id); if (e) e.innerHTML = h; };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// ============================================
 // ICONS INJECT
-// ============================================
 function injectIcons() {
   setHTML("splash-logo", icon("logo", 72));
   setHTML("welcome-icon", icon("sparkle", 48));
@@ -77,14 +71,18 @@ function injectIcons() {
   setHTML("rank-placeholder-icon", icon("trophy", 40));
   setHTML("btn-pd-back", icon("arrowLeft", 18));
 
+  // Part 2
+  setHTML("btn-exam-back", icon("arrowLeft", 18));
+  setHTML("btn-paper-back", icon("arrowLeft", 18));
+  setHTML("btn-generate-icon", icon("sparkle", 20));
+  setHTML("gen-icon", icon("sparkle", 52));
+
   document.querySelectorAll(".nav-item [data-icon]").forEach((el) => {
     el.innerHTML = ICONS[el.dataset.icon] || "";
   });
 }
 
-// ============================================
 // START
-// ============================================
 async function startApp() {
   injectIcons();
   Screen.show("splash");
@@ -142,9 +140,7 @@ function showError(msg) {
   setText("error-msg", msg);
 }
 
-// ============================================
 // WELCOME → AUTH
-// ============================================
 document.addEventListener("click", (e) => {
   if (e.target.closest("#btn-get-started")) {
     Screen.show("auth");
@@ -178,7 +174,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Auth submit
+// AUTH SUBMIT
 document.addEventListener("submit", async (e) => {
   if (e.target.id !== "auth-form") return;
   e.preventDefault();
@@ -217,7 +213,6 @@ document.addEventListener("submit", async (e) => {
   }
 });
 
-// Google
 document.addEventListener("click", async (e) => {
   if (e.target.closest("#btn-google")) {
     try { await Auth.signInWithGoogle(); }
@@ -225,7 +220,6 @@ document.addEventListener("click", async (e) => {
   }
 });
 
-// Guest
 document.addEventListener("click", (e) => {
   if (e.target.closest("#btn-guest")) {
     Guest.set(true);
@@ -237,9 +231,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// ============================================
 // SETUP MODE
-// ============================================
 document.addEventListener("click", (e) => {
   const card = e.target.closest(".mode-card");
   if (!card) return;
@@ -253,9 +245,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// ============================================
 // SCHOOL SETUP
-// ============================================
 function buildSchoolSetup() {
   State.setupStep = 1;
   State.setupData.cls = null;
@@ -309,9 +299,7 @@ document.addEventListener("click", async (e) => {
   await saveProfile({ mode: "school", cls: d.cls, board: d.board, lang: d.lang });
 });
 
-// ============================================
 // COMPETITIVE SETUP
-// ============================================
 async function loadCompetitiveView() {
   document.getElementById("comp-cat-view").style.display = "block";
   document.getElementById("comp-exam-view").style.display = "none";
@@ -386,9 +374,7 @@ document.addEventListener("click", async (e) => {
   });
 });
 
-// ============================================
 // SAVE PROFILE
-// ============================================
 async function saveProfile(data) {
   const profile = {
     id: State.user.id,
@@ -418,9 +404,7 @@ async function saveProfile(data) {
   }
 }
 
-// ============================================
 // HOME
-// ============================================
 function showHome() {
   const p = State.profile;
   const h = new Date().getHours();
@@ -445,9 +429,7 @@ function showHome() {
   Screen.show("home");
 }
 
-// ============================================
 // LOGOUT
-// ============================================
 document.addEventListener("click", async (e) => {
   if (e.target.closest("#btn-logout") || e.target.closest("#btn-me-logout")) {
     if (State.isGuest) {
@@ -463,9 +445,7 @@ document.addEventListener("click", async (e) => {
   }
 });
 
-// ============================================
 // BOTTOM NAV
-// ============================================
 document.addEventListener("click", (e) => {
   const nav = e.target.closest(".nav-item");
   if (!nav) return;
@@ -474,7 +454,7 @@ document.addEventListener("click", (e) => {
   else if (t === "shop") openShop();
   else if (t === "rank") Screen.show("rank");
   else if (t === "me") openMe();
-  else if (t === "test") toast("Test feature Part 3 में आएगा", "success");
+  else if (t === "test") ExamSetup.open();
 });
 
 // Quick access on home
@@ -485,16 +465,15 @@ document.addEventListener("click", (e) => {
   if (t === "shop") openShop();
   else if (t === "rank") Screen.show("rank");
   else if (t === "me") openMe();
-  else if (t === "test") toast("Test feature Part 3 में आएगा", "success");
+  else if (t === "test") ExamSetup.open();
 });
 
+// Home CTA button
 document.addEventListener("click", (e) => {
-  if (e.target.closest("#btn-start-test")) toast("Test feature Part 3 में आएगा", "success");
+  if (e.target.closest("#btn-start-test")) ExamSetup.open();
 });
 
-// ============================================
 // ME
-// ============================================
 function openMe() {
   const p = State.profile;
   setText("me-name", p.name || "Student");
@@ -512,9 +491,7 @@ function openMe() {
   Screen.show("me");
 }
 
-// ============================================
 // SHOP
-// ============================================
 async function openShop() {
   Screen.show("shop");
   if (!Shop.products.length) {
@@ -571,9 +548,7 @@ document.addEventListener("click", (e) => {
   if (p) openProductDetail(p);
 });
 
-// ============================================
 // PRODUCT DETAIL
-// ============================================
 function openProductDetail(p) {
   Shop.currentProduct = p;
   const img = (p.images && p.images[0]) || "https://via.placeholder.com/600x800?text=Product";
@@ -582,4 +557,29 @@ function openProductDetail(p) {
 
   let marketsHTML = "";
   if (links.flipkart) marketsHTML += Shop.marketBtnHTML("flipkart", "Flipkart", "Best deals & fast delivery", links.flipkart);
-  if (links.amazon) marketsHTML += Shop.marketBtnHTML("amazon", "amazon", "Wide range & trusted deli
+  if (links.amazon) marketsHTML += Shop.marketBtnHTML("amazon", "amazon", "Wide range & trusted delivery", links.amazon);
+  if (links.meesho) marketsHTML += Shop.marketBtnHTML("meesho", "meesho", "Great prices & more offers", links.meesho);
+  if (links.other) marketsHTML += Shop.marketBtnHTML("other", "Other Stores", "Check on other platforms", links.other);
+
+  const tags = (p.tags || []).map((t) =>
+    `<div class="pd-feature">${ICONS.check}<div class="pd-feature-label">${t}</div></div>`).join("");
+
+  setHTML("pd-content", `
+    <img class="product-detail-img" src="${img}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/600x800?text=Product'"/>
+    ${p.badge ? `<div class="pd-badge">${p.badge}</div>` : ""}
+    <div class="pd-title">${p.title}</div>
+    <div class="pd-rating">
+      <span class="pd-stars">${stars}</span>
+      <span style="font-weight:700;">${p.rating || 0}</span>
+      <span class="muted">(${p.rating_count || 0})</span>
+      <span class="pd-verified">${ICONS.check} Verified</span>
+    </div>
+    <div class="pd-desc">${p.description || ""}</div>
+
+    <div class="pd-section-title">Available On</div>
+    <div class="pd-section-sub">अपना पसंदीदा marketplace चुनो</div>
+    <div class="market-grid">${marketsHTML}</div>
+
+    <div class="pd-section-title">Product Description</div>
+    <div class="pd-desc" style="margin-top:8px;">${p.description || "No description available."}</div>
+  
