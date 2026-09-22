@@ -11,41 +11,7 @@
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-
-  <!-- EMERGENCY SPLASH FIX -->
-<script>
-setTimeout(function() {
-  var splash = document.getElementById('splash');
-  if (splash && splash.classList.contains('active')) {
-    splash.classList.remove('active');
-    splash.style.display = 'none';
-
-    var info = 'URL: ' + (typeof SUPABASE_URL !== 'undefined' ? SUPABASE_URL : '❌ NOT LOADED') + '\n';
-    info += 'Key: ' + (typeof SUPABASE_ANON_KEY !== 'undefined' ? '✅ Loaded' : '❌ NOT LOADED') + '\n';
-    info += 'Supabase client: ' + (typeof supabase !== 'undefined' && supabase ? '✅ OK' : '❌ NOT LOADED') + '\n';
-    info += 'Screen object: ' + (typeof Screen !== 'undefined' ? '✅ OK' : '❌ NOT LOADED') + '\n';
-    info += 'State object: ' + (typeof State !== 'undefined' ? '✅ OK' : '❌ NOT LOADED') + '\n';
-    info += 'startApp function: ' + (typeof startApp !== 'undefined' ? '✅ OK' : '❌ NOT LOADED') + '\n';
-    info += 'DOM State: ' + document.readyState + '\n';
-
-    var errHTML = '';
-    window.addEventListener('error', function(e) {
-      errHTML += e.message + ' @ ' + (e.filename || '').split('/').pop() + ':' + e.lineno + '\n';
-      document.getElementById('debug-err').textContent = errHTML;
-    });
-
-    document.body.innerHTML =
-      '<div style="padding:20px;font-family:monospace;font-size:13px;background:#1A1D29;color:#fff;min-height:100vh;line-height:1.8;">' +
-      '<h2 style="color:#FF5A5F;margin-bottom:16px;">🔍 Splash Force Hidden — Debug Info</h2>' +
-      '<pre style="background:rgba(255,255,255,0.08);padding:14px;border-radius:8px;white-space:pre-wrap;word-break:break-all;">' + info + '</pre>' +
-      '<div style="margin-top:14px;color:#FFA726;font-weight:700;">Errors (if any):</div>' +
-      '<pre id="debug-err" style="background:rgba(255,90,95,0.15);padding:14px;border-radius:8px;white-space:pre-wrap;color:#FFD5D5;min-height:40px;">None</pre>' +
-      '<button onclick="location.reload()" style="width:100%;padding:14px;background:#6C5CE7;color:#fff;border:0;border-radius:10px;font-size:15px;font-weight:700;margin-top:20px;">🔄 Reload</button>' +
-      '</div>';
-  }
-}, 4000);
-</script>
-  
+   
 <div id="splash" class="screen active">
   <div class="splash-inner">
     <div class="logo-big" id="splash-logo"></div>
