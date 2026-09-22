@@ -234,4 +234,6 @@ html, body { height: 100%; font-family: 'Inter', -apple-system, system-ui, sans-
 .market-btn:active { transform: scale(.97); }
 .market-content { flex: 1; }
 .market-brand { font-size: 16px; font-weight: 800; letter-spacing: -.3px; margin-bottom: 2px; }
-.market-sub { font
+.market-sub { font-size: 10.5px; opacity: .85; font-weight: 500; line-height: 1.3; }
+.market-arrow { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.market-arrow svg { width: 100%; height: 100%; }
