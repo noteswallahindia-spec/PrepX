@@ -38,6 +38,7 @@
   </div>
 </div>
 
+<!-- AUTH: Google हटाया -->
 <div id="auth" class="screen">
   <div class="auth-wrap">
     <button class="back-btn" id="btn-auth-back"></button>
@@ -78,10 +79,6 @@
       </button>
     </form>
     <div class="divider"><span>या</span></div>
-    <button class="btn-social" id="btn-google">
-      <span class="social-icon" id="icon-google"></span>
-      <span>Continue with Google</span>
-    </button>
     <button class="btn-social guest" id="btn-guest">
       <span class="social-icon" id="icon-guest"></span>
       <span>Continue as Guest</span>
@@ -162,7 +159,6 @@
   </div>
 </div>
 
-<!-- HOME -->
 <div id="home" class="screen app-screen">
   <div class="app-header">
     <div class="header-left">
@@ -172,11 +168,16 @@
         <div class="greet-sub" id="greet-sub">Ready to learn?</div>
       </div>
     </div>
-    <button class="icon-btn" id="btn-logout"></button>
+    <div style="display:flex;gap:8px;">
+      <button class="icon-btn" id="btn-notif" style="position:relative;">
+        <span id="notif-bell-icon"></span>
+        <span class="notif-badge" id="notif-badge" style="display:none;">0</span>
+      </button>
+      <button class="icon-btn" id="btn-logout"></button>
+    </div>
   </div>
 
   <div class="home-content">
-    <!-- Stats Row -->
     <div class="ds-stats">
       <div class="ds-stat">
         <span class="ds-stat-icon purple" id="ds-xp-icon"></span>
@@ -200,14 +201,12 @@
       </div>
     </div>
 
-    <!-- Profile card -->
     <div class="profile-card">
       <div class="pc-row"><span class="pc-label">Mode</span><span class="pc-value" id="pc-mode">—</span></div>
       <div class="pc-row"><span class="pc-label" id="pc-label-1">Class</span><span class="pc-value" id="pc-value-1">—</span></div>
       <div class="pc-row"><span class="pc-label" id="pc-label-2">Board</span><span class="pc-value" id="pc-value-2">—</span></div>
     </div>
 
-    <!-- CTA -->
     <button class="cta-big" id="btn-start-test">
       <div class="cta-icon" id="cta-icon"></div>
       <div class="cta-text">
@@ -217,33 +216,15 @@
       <div class="cta-arrow" id="cta-arrow"></div>
     </button>
 
-    <!-- Recent tests -->
     <div class="section-title">Recent Tests</div>
     <div id="ds-recent"></div>
 
-    <!-- Quick access -->
     <div class="section-title">Quick Access</div>
     <div class="feature-grid">
-      <div class="feature-card" data-nav="test">
-        <div class="fc-icon">${ICONS?.sparkle || ""}</div>
-        <div class="fc-title">Start Test</div>
-        <div class="fc-sub">AI Paper</div>
-      </div>
-      <div class="feature-card" data-nav="shop">
-        <div class="fc-icon">${ICONS?.bag || ""}</div>
-        <div class="fc-title">Shop</div>
-        <div class="fc-sub">Books & More</div>
-      </div>
-      <div class="feature-card" data-nav="rank">
-        <div class="fc-icon">${ICONS?.trophy || ""}</div>
-        <div class="fc-title">Leaderboard</div>
-        <div class="fc-sub">Rankings</div>
-      </div>
-      <div class="feature-card" data-nav="me">
-        <div class="fc-icon">${ICONS?.user || ""}</div>
-        <div class="fc-title">My Profile</div>
-        <div class="fc-sub">Settings</div>
-      </div>
+      <div class="feature-card" data-nav="test"><div class="fc-icon" id="fc1"></div><div class="fc-title">Start Test</div><div class="fc-sub">AI Paper</div></div>
+      <div class="feature-card" data-nav="shop"><div class="fc-icon" id="fc2"></div><div class="fc-title">Shop</div><div class="fc-sub">Books & More</div></div>
+      <div class="feature-card" data-nav="rank"><div class="fc-icon" id="fc3"></div><div class="fc-title">Leaderboard</div><div class="fc-sub">Rankings</div></div>
+      <div class="feature-card" data-nav="me"><div class="fc-icon" id="fc4"></div><div class="fc-title">My Profile</div><div class="fc-sub">Settings</div></div>
     </div>
   </div>
 </div>
@@ -282,7 +263,6 @@
   <div class="home-content" id="pd-content"></div>
 </div>
 
-<!-- RANK / LEADERBOARD -->
 <div id="rank" class="screen app-screen">
   <div class="app-header">
     <div class="header-left">
@@ -306,7 +286,6 @@
   </div>
 </div>
 
-<!-- ME -->
 <div id="me" class="screen app-screen">
   <div class="app-header">
     <div class="header-left">
@@ -348,10 +327,99 @@
       <div class="pc-row"><span class="pc-label">Board / Lang</span><span class="pc-value" id="me-board">—</span></div>
     </div>
 
-    <button class="btn-social" id="btn-me-logout" style="background:#FFF1F1;border-color:#FFD5D5;color:var(--error);">
+    <button class="menu-btn" id="btn-admin-shop">
+      <span class="menu-icon" id="me-menu-shop-icon"></span>
+      <span class="menu-label">Manage Shop</span>
+      <span class="menu-arrow">›</span>
+    </button>
+
+    <button class="btn-social" id="btn-me-logout" style="background:#FFF1F1;border-color:#FFD5D5;color:var(--error);margin-top:12px;">
       <span class="social-icon" id="me-logout-icon"></span>
       <span>Logout</span>
     </button>
+  </div>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div id="notifications" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-notif-back" style="margin-bottom:0;"></button>
+      <div>
+        <div class="greet">Notifications</div>
+        <div class="greet-sub">Updates & reminders</div>
+      </div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div id="notif-list"></div>
+  </div>
+</div>
+
+<!-- ADMIN SHOP -->
+<div id="admin-shop" class="screen">
+  <div class="exam-setup-wrap">
+    <div class="exam-header">
+      <button class="back-btn" id="btn-adm-back" style="margin-bottom:0;"></button>
+      <h2>Shop Manager</h2>
+      <div style="width:42px;"></div>
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Product Title</label>
+      <input type="text" id="adm-title" class="select-input" placeholder="NCERT Class 10 Science" />
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Description</label>
+      <textarea id="adm-desc" class="select-input" rows="3" placeholder="Short description"></textarea>
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Category</label>
+      <input type="text" id="adm-cat" class="select-input" placeholder="books / stationery / gadgets / merch" />
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Image URLs (comma separated)</label>
+      <input type="text" id="adm-imgs" class="select-input" placeholder="https://...,https://..." />
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Price Text</label>
+      <input type="text" id="adm-price" class="select-input" placeholder="₹199 - ₹450" />
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Flipkart Link</label>
+      <input type="text" id="adm-fk" class="select-input" placeholder="https://flipkart.com/..." />
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Amazon Link</label>
+      <input type="text" id="adm-amz" class="select-input" placeholder="https://amazon.in/..." />
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Meesho Link</label>
+      <input type="text" id="adm-meesho" class="select-input" placeholder="https://meesho.com/..." />
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Other Store Link</label>
+      <input type="text" id="adm-other" class="select-input" placeholder="https://..." />
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:10px;margin-bottom:24px;">
+      <button class="btn-secondary" id="btn-adm-clear">Clear</button>
+      <button class="btn-primary" id="btn-adm-save">
+        <span id="adm-save-icon"></span>
+        <span>Save Product</span>
+      </button>
+    </div>
+
+    <div class="section-title">All Products</div>
+    <div id="adm-list"></div>
   </div>
 </div>
 
@@ -457,77 +525,4 @@
     </div>
 
     <div class="er-progress">
-      <div class="er-progress-fill" id="er-progress-fill"></div>
-    </div>
-
-    <div class="er-body" id="er-body">
-      <div class="er-q-header">
-        <span class="er-q-num" id="er-q-num">Q1 / 10</span>
-        <span class="er-q-marks" id="er-q-marks">1 mark</span>
-      </div>
-      <div class="er-q-type" id="er-q-type">MCQ</div>
-      <div class="er-q-text" id="er-q-text">Question will appear here</div>
-      <div class="er-options" id="er-options"></div>
-      <div class="er-subjective" id="er-subjective" style="display:none;">
-        <textarea id="er-answer-input" placeholder="अपना उत्तर यहाँ लिखो..." rows="8"></textarea>
-        <div class="er-word-count" id="er-word-count">0 words</div>
-      </div>
-    </div>
-
-    <div class="er-footer">
-      <button class="er-nav-btn" id="btn-er-prev">
-        <span id="er-prev-icon"></span>
-        <span>Prev</span>
-      </button>
-      <button class="er-mark-btn" id="btn-er-mark">
-        <span id="er-mark-icon"></span>
-      </button>
-      <button class="er-nav-btn primary" id="btn-er-next">
-        <span id="er-next-text">Next</span>
-        <span id="er-next-icon"></span>
-      </button>
-    </div>
-  </div>
-</div>
-
-<div id="palette-drawer" class="palette-drawer">
-  <div class="palette-panel">
-    <div class="palette-header">
-      <h3>Questions</h3>
-      <button class="er-icon-btn" id="btn-palette-close"></button>
-    </div>
-    <div class="palette-legend">
-      <div class="legend-item"><span class="legend-dot answered"></span> Answered</div>
-      <div class="legend-item"><span class="legend-dot notanswered"></span> Not answered</div>
-      <div class="legend-item"><span class="legend-dot marked"></span> Marked</div>
-      <div class="legend-item"><span class="legend-dot"></span> Not visited</div>
-    </div>
-    <div class="palette-grid" id="palette-grid"></div>
-    <div class="palette-summary" id="palette-summary">
-      <div><strong>Answered:</strong> <span id="sum-answered">0</span></div>
-      <div><strong>Not answered:</strong> <span id="sum-notanswered">0</span></div>
-      <div><strong>Marked:</strong> <span id="sum-marked">0</span></div>
-    </div>
-    <button class="btn-primary" id="btn-submit-from-palette">Submit Test</button>
-  </div>
-</div>
-
-<div id="submit-confirm" class="modal-overlay">
-  <div class="modal-box">
-    <div class="modal-icon" id="submit-modal-icon"></div>
-    <h3 class="modal-title">Test Submit करें?</h3>
-    <p class="modal-text">AI तुम्हारे subjective answers भी check करेगा.</p>
-    <div class="submit-stats" id="submit-stats"></div>
-    <div class="modal-actions">
-      <button class="btn-secondary" id="btn-cancel-submit">Cancel</button>
-      <button class="btn-primary" id="btn-confirm-submit">
-        <span id="confirm-icon"></span>
-        <span>Submit</span>
-      </button>
-    </div>
-  </div>
-</div>
-
-<div id="exit-confirm" class="modal-overlay">
-  <div class="modal-box">
-    <div class="modal-icon warn" id="exit-mod
+      <div class="er-progress-fi
