@@ -45,7 +45,6 @@ function injectIcons() {
   setHTML("icon-name", icon("user", 18));
   setHTML("icon-mail", icon("mail", 18));
   setHTML("icon-lock", icon("lock", 18));
-  setHTML("icon-google", icon("google", 20));
   setHTML("icon-guest", icon("guest", 20));
   setHTML("btn-eye", icon("eye", 18));
   setHTML("setup-arrow", icon("arrowRight", 18));
@@ -53,16 +52,21 @@ function injectIcons() {
   setHTML("shop-logo", icon("logo", 26));
   setHTML("rank-logo", icon("logo", 26));
   setHTML("me-logo", icon("logo", 26));
+  setHTML("notif-bell-icon", icon("bell", 20));
   setHTML("btn-logout", icon("logout", 18));
   setHTML("me-logout-icon", icon("logout", 20));
+  setHTML("me-menu-shop-icon", icon("package", 20));
   setHTML("cta-icon", icon("sparkle", 26));
   setHTML("cta-arrow", icon("arrowRight", 20));
+  setHTML("fc1", icon("sparkle", 22));
+  setHTML("fc2", icon("bag", 22));
+  setHTML("fc3", icon("trophy", 22));
+  setHTML("fc4", icon("user", 22));
   setHTML("error-icon", icon("alert", 48));
   setHTML("mode-icon-school", icon("book", 28));
   setHTML("mode-icon-competitive", icon("trophy", 28));
   setHTML("btn-comp-back", icon("arrowLeft", 18));
   setHTML("shop-search-icon", icon("search", 18));
-  setHTML("rank-placeholder-icon", icon("trophy", 40));
   setHTML("btn-pd-back", icon("arrowLeft", 18));
   setHTML("btn-exam-back", icon("arrowLeft", 18));
   setHTML("btn-paper-back", icon("arrowLeft", 18));
@@ -101,22 +105,19 @@ function injectIcons() {
   setHTML("cert-copy-icon", icon("link", 18));
   setHTML("cert-retake-icon", icon("refresh", 18));
 
-  // Part 6 - Dashboard
   setHTML("ds-xp-icon", icon("zap", 20));
   setHTML("ds-streak-icon", icon("flame", 20));
   setHTML("ds-tests-icon", icon("target", 20));
   setHTML("ds-avg-icon", icon("trending", 20));
   setHTML("rank-podium-icon", icon("trophy", 22));
 
-  // Profile stats
   setHTML("me-xp-icon", icon("zap", 20));
   setHTML("me-streak-icon", icon("flame", 20));
   setHTML("me-tests-icon", icon("target", 20));
 
-  // Profile menu icons
-  setHTML("me-menu-1-icon", icon("book", 20));
-  setHTML("me-menu-2-icon", icon("award", 20));
-  setHTML("me-menu-3-icon", icon("chart", 20));
+  setHTML("btn-notif-back", icon("arrowLeft", 18));
+  setHTML("btn-adm-back", icon("arrowLeft", 18));
+  setHTML("adm-save-icon", icon("check", 18));
 
   document.querySelectorAll(".nav-item [data-icon]").forEach((el) => {
     el.innerHTML = ICONS[el.dataset.icon] || "";
@@ -250,13 +251,6 @@ document.addEventListener("submit", async (e) => {
   } finally {
     btn.classList.remove("loading");
     btn.disabled = false;
-  }
-});
-
-document.addEventListener("click", async (e) => {
-  if (e.target.closest("#btn-google")) {
-    try { await Auth.signInWithGoogle(); }
-    catch (err) { setText("auth-error", err.message); }
   }
 });
 
@@ -463,8 +457,23 @@ async function showHome() {
 
   Screen.show("home");
 
-  // Load dashboard data
   Dashboard.load().then(() => Dashboard.render());
+  updateNotifBadge();
+  Notifications.checkDailyReminder();
+}
+
+async function updateNotifBadge() {
+  await Notifications.load();
+  const count = Notifications.unreadCount();
+  const badge = document.getElementById("notif-badge");
+  if (badge) {
+    if (count > 0) {
+      badge.style.display = "flex";
+      badge.textContent = count > 9 ? "9+" : count;
+    } else {
+      badge.style.display = "none";
+    }
+  }
 }
 
 document.addEventListener("click", async (e) => {
@@ -524,7 +533,6 @@ async function openMe() {
 
   Screen.show("me");
 
-  // Load stats
   await Dashboard.load();
   const s = Dashboard.stats || {};
   setText("me-xp", Dashboard.formatNum(s.xp || 0));
@@ -579,12 +587,4 @@ function renderProducts() {
 }
 
 document.addEventListener("click", (e) => {
-  const card = e.target.closest(".product-card, .featured-card");
-  if (!card) return;
-  const p = Shop.findById(card.dataset.product);
-  if (p) openProductDetail(p);
-});
-
-function openProductDetail(p) {
-  Shop.currentProduct = p;
-  const img = (p.images && p
+  
