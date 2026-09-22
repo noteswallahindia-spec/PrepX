@@ -20,7 +20,9 @@ const AI = {
       typeInstr = `Generate ${mcq} MCQ + ${sub} subjective questions.`;
     }
 
-    const chapters = cfg.chapters?.length ? cfg.chapters.join(", ") : "all topics";
+    const chapters = cfg.chapters && cfg.chapters.length
+      ? cfg.chapters.join(", ")
+      : "all topics";
 
     return `You are an expert exam paper setter in India.
 
@@ -35,7 +37,7 @@ Create a mock test paper:
 - ${langInstr}
 
 RULES:
-1. Return ONLY valid JSON.
+1. Return ONLY valid JSON, no extra text.
 2. Format exactly:
 {
   "title": "Test title",
