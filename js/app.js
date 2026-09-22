@@ -94,10 +94,20 @@ function injectIcons() {
   setHTML("rs-ai-icon", icon("brain", 22));
   setHTML("rs-weak-icon", icon("chart", 20));
   setHTML("rs-strong-icon", icon("star", 20));
+  setHTML("rs-cert-icon", icon("trophy", 26));
+  setHTML("rs-cert-arrow", icon("arrowRight", 20));
   setHTML("btn-rs-home-icon", icon("home", 18));
   setHTML("btn-rs-review-icon", icon("book", 18));
   setHTML("btn-rs-retake-icon", icon("refresh", 18));
   setHTML("btn-review-back-icon", icon("arrowLeft", 18));
+
+  // Certificate
+  setHTML("btn-cert-home-icon", icon("home", 18));
+  setHTML("cert-dl-icon", icon("download", 18));
+  setHTML("cert-wa-icon", icon("whatsapp", 18));
+  setHTML("cert-share-icon", icon("share", 18));
+  setHTML("cert-copy-icon", icon("link", 18));
+  setHTML("cert-retake-icon", icon("refresh", 18));
 
   document.querySelectorAll(".nav-item [data-icon]").forEach((el) => {
     el.innerHTML = ICONS[el.dataset.icon] || "";
@@ -114,6 +124,8 @@ async function startApp() {
 
   const conn = await testConnection();
   if (!conn.ok) return showError(conn.error);
+
+  Certificate.init();
 
   await checkSession();
 
@@ -563,12 +575,4 @@ function openProductDetail(p) {
   if (links.flipkart) marketsHTML += Shop.marketBtnHTML("flipkart", "Flipkart", "Best deals & fast delivery", links.flipkart);
   if (links.amazon) marketsHTML += Shop.marketBtnHTML("amazon", "amazon", "Wide range & trusted delivery", links.amazon);
   if (links.meesho) marketsHTML += Shop.marketBtnHTML("meesho", "meesho", "Great prices & more offers", links.meesho);
-  if (links.other) marketsHTML += Shop.marketBtnHTML("other", "Other Stores", "Check on other platforms", links.other);
-
-  const tags = (p.tags || []).map((t) =>
-    `<div class="pd-feature">${ICONS.check}<div class="pd-feature-label">${t}</div></div>`).join("");
-
-  setHTML("pd-content", `
-    <img class="product-detail-img" src="${img}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/600x800?text=Product'"/>
-    ${p.badge ? `<div class="pd-badge">${p.badge}</div>` : ""}
-    <div class="pd-title">
+  if (links.other) marketsHTML += Shop.marketBtnHTML("other", "Other Stores", "Ch
