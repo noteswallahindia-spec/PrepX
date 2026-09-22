@@ -15,7 +15,6 @@ const ExamSetup = {
   currentPaper: null,
   currentProvider: null,
 
-  // ============ OPEN SCREEN ============
   async open() {
     const profile = State.profile;
     const examId = this.getExamId(profile);
@@ -77,7 +76,6 @@ const ExamSetup = {
     });
   },
 
-  // ============ GENERATE ============
   async generate() {
     const p = State.profile;
     const cfg = this.config;
@@ -139,7 +137,6 @@ const ExamSetup = {
     }
   },
 
-  // ============ SHOW PAPER ============
   showPaper(paper, provider) {
     setText("paper-title", paper.title || "Test Paper");
 
@@ -186,10 +183,6 @@ const ExamSetup = {
 // EVENT WIRING
 // ============================================
 document.addEventListener("click", (e) => {
-  if (e.target.closest("#btn-start-test")) ExamSetup.open();
-});
-
-document.addEventListener("click", (e) => {
   if (e.target.closest("#btn-exam-back")) Screen.show("home");
 });
 
@@ -235,5 +228,5 @@ document.addEventListener("click", (e) => {
 });
 
 document.addEventListener("click", (e) => {
-  if (e.target.closest("#btn-start-exam")) toast("Exam Room Part 4 में आएगा", "success");
+  if (e.target.closest("#btn-start-exam")) toast("Exam Room Part 3 में आएगा", "success");
 });
