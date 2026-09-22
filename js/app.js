@@ -70,12 +70,24 @@ function injectIcons() {
   setHTML("shop-search-icon", icon("search", 18));
   setHTML("rank-placeholder-icon", icon("trophy", 40));
   setHTML("btn-pd-back", icon("arrowLeft", 18));
-
-  // Part 2
   setHTML("btn-exam-back", icon("arrowLeft", 18));
   setHTML("btn-paper-back", icon("arrowLeft", 18));
   setHTML("btn-generate-icon", icon("sparkle", 20));
   setHTML("gen-icon", icon("sparkle", 52));
+
+  // Exam Room
+  setHTML("er-timer-icon", icon("clock", 18));
+  setHTML("btn-er-exit", icon("close", 20));
+  setHTML("btn-er-palette", icon("grid", 20));
+  setHTML("er-mark-icon", icon("flag", 20));
+  setHTML("er-prev-icon", icon("chevronLeft", 16));
+  setHTML("er-next-icon", icon("chevronRight", 16));
+  setHTML("btn-palette-close", icon("close", 20));
+  setHTML("submit-modal-icon", icon("send", 32));
+  setHTML("confirm-icon", icon("send", 18));
+  setHTML("exit-modal-icon", icon("alert", 32));
+  setHTML("timeup-icon", icon("clock", 32));
+  setHTML("res-icon", icon("check", 48));
 
   document.querySelectorAll(".nav-item [data-icon]").forEach((el) => {
     el.innerHTML = ICONS[el.dataset.icon] || "";
@@ -570,16 +582,4 @@ function openProductDetail(p) {
     <div class="pd-title">${p.title}</div>
     <div class="pd-rating">
       <span class="pd-stars">${stars}</span>
-      <span style="font-weight:700;">${p.rating || 0}</span>
-      <span class="muted">(${p.rating_count || 0})</span>
-      <span class="pd-verified">${ICONS.check} Verified</span>
-    </div>
-    <div class="pd-desc">${p.description || ""}</div>
-
-    <div class="pd-section-title">Available On</div>
-    <div class="pd-section-sub">अपना पसंदीदा marketplace चुनो</div>
-    <div class="market-grid">${marketsHTML}</div>
-
-    <div class="pd-section-title">Product Description</div>
-    <div class="pd-desc" style="margin-top:8px;">${p.description || "No description available."}</div>
-  
+      <sp
