@@ -10,7 +10,6 @@ const Result = {
     const r = resultData;
     const percent = r.totalMarks ? Math.round((r.score / r.totalMarks) * 100) : 0;
 
-    // Grade
     let grade = "F";
     if (percent >= 90) grade = "A+";
     else if (percent >= 80) grade = "A";
@@ -19,15 +18,11 @@ const Result = {
     else if (percent >= 50) grade = "C";
     else if (percent >= 40) grade = "D";
 
-    // Big score
     setText("rs-score", r.score + " / " + r.totalMarks);
     setText("rs-percent", percent + "%");
     setText("rs-grade", "Grade: " + grade);
-
-    // Time
     setText("rs-time", this.formatTime(r.timeUsed));
 
-    // Counts
     let correct = 0, wrong = 0, skipped = 0, subjectiveCount = 0;
     const total = r.paper.questions.length;
     for (let i = 0; i < total; i++) {
@@ -61,16 +56,12 @@ const Result = {
       </div>
     `);
 
-    // AI feedback
     const aiBox = document.getElementById("rs-ai-box");
     if (r.aiFeedback) {
       aiBox.style.display = "block";
       setText("rs-ai-text", r.aiFeedback);
-    } else {
-      aiBox.style.display = "none";
-    }
+    } else aiBox.style.display = "none";
 
-    // Weak topics
     const weakBox = document.getElementById("rs-weak-box");
     if (r.weakTopics && r.weakTopics.length) {
       weakBox.style.display = "block";
@@ -78,7 +69,6 @@ const Result = {
         `<span class="topic-tag weak">${t}</span>`).join(""));
     } else weakBox.style.display = "none";
 
-    // Strong topics
     const strongBox = document.getElementById("rs-strong-box");
     if (r.strongTopics && r.strongTopics.length) {
       strongBox.style.display = "block";
@@ -177,8 +167,10 @@ const Result = {
 document.addEventListener("click", (e) => {
   if (e.target.closest("#btn-rs-home")) Screen.show("home");
   if (e.target.closest("#btn-rs-review")) Result.showReview();
-  if (e.target.closest("#btn-rs-retake")) {
-    Screen.show("exam-setup");
-  }
+  if (e.target.closest("#btn-rs-retake")) Screen.show("exam-setup");
   if (e.target.closest("#btn-review-back")) Screen.show("result");
+  if (e.target.closest("#btn-rs-certificate")) {
+    if (!Result.current) return;
+    Certificate.generate(Result.current);
+  }
 });
