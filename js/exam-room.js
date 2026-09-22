@@ -285,11 +285,8 @@ const ExamRoom = {
 
   async submit() {
     this.stopTimer();
-
-    // Show evaluating screen
     Screen.show("evaluating");
 
-    // Build answer string
     const answersList = [];
     const total = this.paper.questions.length;
     for (let i = 0; i < total; i++) {
@@ -300,7 +297,6 @@ const ExamRoom = {
     }
     const answerStr = answersList.join("");
 
-    // MCQ score
     let mcqScore = 0, totalMarks = 0;
     for (let i = 0; i < total; i++) {
       const q = this.paper.questions[i];
@@ -309,7 +305,6 @@ const ExamRoom = {
       if (q.type === "mcq" && this.answers[i] === q.correct_answer) mcqScore += marks;
     }
 
-    // AI evaluation for subjective
     let subjectiveEval = [];
     let aiFeedback = "";
     let weakTopics = [];
@@ -325,19 +320,16 @@ const ExamRoom = {
         weakTopics = evalRes.weak_topics || [];
         strongTopics = evalRes.strong_topics || [];
         aiFeedback = evalRes.overall_feedback || "";
-
-        // Add subjective score
         subjectiveEval.forEach((e) => { subjectiveScore += (e.awarded || 0); });
       }
     } catch (e) {
       console.warn("AI eval failed:", e);
-      aiFeedback = "AI evaluation failed. Subjective answers manually check करो.";
+      aiFeedback = "AI evaluation failed.";
     }
 
     const finalScore = mcqScore + subjectiveScore;
     const timeUsed = this.totalTime - this.timeLeft;
 
-    // Result object
     const resultData = {
       paper: this.paper,
       answers: this.answers,
@@ -357,13 +349,12 @@ const ExamRoom = {
 
     App.state.lastResult = resultData;
 
-    // Save to DB (best-effort)
-    this.saveToBackend(resultData);
+    await this.saveToBackend(resultData);
 
-    // Clear draft
+    // Mark daily challenge as attempted
+    try { await DailyChallenge.markAttempted(finalScore, totalMarks); } catch {}
+
     this.clearDraft();
-
-    // Show result
     Result.show(resultData);
   },
 
@@ -431,7 +422,6 @@ const ExamRoom = {
         subjective_eval: resultData.subjectiveEval,
       });
 
-      // cleanup old attempts
       supabase.rpc("cleanup_old_attempts").then(() => {}).catch(() => {});
     } catch (e) {
       console.warn("Save failed:", e);
