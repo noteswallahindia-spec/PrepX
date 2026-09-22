@@ -1,28 +1,758 @@
 <!DOCTYPE html>
-<html>
-<head><title>TEST</title></head>
-<body style="font-family:monospace;padding:20px;font-size:16px;line-height:2;">
-<h1 style="color:red;">TEST PAGE</h1>
-<div id="r1">Checking config.js...</div>
-<div id="r2">Checking icons.js...</div>
-<div id="r3">Checking supabase.js...</div>
-<div id="r4">Checking css/style.css...</div>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#6C5CE7" />
+<title>PreX — AI Test App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
 
-<link rel="stylesheet" href="css/style.css">
+<div id="splash" class="screen active">
+  <div class="splash-inner">
+    <div class="logo-big" id="splash-logo"></div>
+    <h1 class="splash-title">PreX</h1>
+    <p class="splash-sub">AI Test App for Students</p>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+  </div>
+</div>
+
+<div id="welcome" class="screen flex">
+  <div class="welcome-wrap">
+    <div class="welcome-icon" id="welcome-icon"></div>
+    <h1 class="welcome-title">Welcome to PreX</h1>
+    <p class="welcome-text">AI से बने mock papers, instant result, और certificate — सब एक ऐप में.</p>
+    <div class="feature-list">
+      <div class="feature-item"><span class="feature-dot"></span><span>AI हर बार नया paper बनाएगा</span></div>
+      <div class="feature-item"><span class="feature-dot"></span><span>MCQ + Subjective दोनों</span></div>
+      <div class="feature-item"><span class="feature-dot"></span><span>Instant result + certificate</span></div>
+    </div>
+    <button class="btn-primary" id="btn-get-started">
+      <span>Get Started</span>
+      <span class="btn-icon" id="welcome-arrow"></span>
+    </button>
+  </div>
+</div>
+
+<div id="auth" class="screen">
+  <div class="auth-wrap">
+    <button class="back-btn" id="btn-auth-back"></button>
+    <div class="auth-header">
+      <h2 id="auth-title">Login</h2>
+      <p id="auth-sub">अपना account access करो</p>
+    </div>
+    <div class="tab-switch">
+      <button class="tab active" data-tab="login">Login</button>
+      <button class="tab" data-tab="signup">Signup</button>
+    </div>
+    <form id="auth-form">
+      <div class="input-group" id="name-group" style="display:none;">
+        <label>नाम</label>
+        <div class="input-wrap">
+          <span class="input-icon" id="icon-name"></span>
+          <input type="text" id="inp-name" placeholder="तुम्हारा नाम" />
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Email</label>
+        <div class="input-wrap">
+          <span class="input-icon" id="icon-mail"></span>
+          <input type="email" id="inp-email" placeholder="you@example.com" required />
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <div class="input-wrap">
+          <span class="input-icon" id="icon-lock"></span>
+          <input type="password" id="inp-password" placeholder="कम से कम 6 characters" required />
+          <button type="button" class="eye-btn" id="btn-eye"></button>
+        </div>
+      </div>
+      <div class="auth-error" id="auth-error"></div>
+      <button type="submit" class="btn-primary" id="btn-auth-submit">
+        <span id="auth-submit-text">Login</span>
+      </button>
+    </form>
+    <div class="divider"><span>या</span></div>
+    <button class="btn-social guest" id="btn-guest">
+      <span class="social-icon" id="icon-guest"></span>
+      <span>Continue as Guest</span>
+    </button>
+    <p class="guest-note">Guest mode में data सिर्फ तुम्हारे phone में save होगा</p>
+  </div>
+</div>
+
+<div id="setup-mode" class="screen">
+  <div class="setup-wrap">
+    <div class="setup-header">
+      <h2>किसके लिए तैयारी कर रहे हो?</h2>
+      <p>हम तुम्हारे हिसाब से paper बनाएँगे</p>
+    </div>
+    <div class="mode-grid">
+      <button class="mode-card" data-mode="school">
+        <div class="mode-icon" id="mode-icon-school"></div>
+        <div class="mode-title">School</div>
+        <div class="mode-sub">Class 6-12 • CBSE/ICSE/State</div>
+      </button>
+      <button class="mode-card" data-mode="competitive">
+        <div class="mode-icon" id="mode-icon-competitive"></div>
+        <div class="mode-title">Competitive Exam</div>
+        <div class="mode-sub">JEE • NEET • UPSC • SSC • और भी</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="setup-school" class="screen">
+  <div class="setup-wrap">
+    <div class="setup-header">
+      <h2>अपनी details भरो</h2>
+      <p>इससे AI तुम्हारे लिए सही paper बनाएगा</p>
+    </div>
+    <div class="step-indicator">
+      <div class="step active" data-step="1"></div>
+      <div class="step" data-step="2"></div>
+      <div class="step" data-step="3"></div>
+    </div>
+    <div class="setup-step active" data-step="1">
+      <h3>तुम किस class में हो?</h3>
+      <div class="chip-grid" id="class-grid"></div>
+    </div>
+    <div class="setup-step" data-step="2">
+      <h3>तुम्हारा board कौनसा है?</h3>
+      <div class="chip-grid" id="board-grid"></div>
+    </div>
+    <div class="setup-step" data-step="3">
+      <h3>तुम किस भाषा में पढ़ना पसंद करते हो?</h3>
+      <div class="chip-grid" id="lang-grid"></div>
+    </div>
+    <button class="btn-primary" id="btn-setup-next">
+      <span id="setup-next-text">Next</span>
+      <span class="btn-icon" id="setup-arrow"></span>
+    </button>
+  </div>
+</div>
+
+<div id="setup-comp" class="screen">
+  <div class="setup-wrap">
+    <div class="setup-header">
+      <h2>कौनसा exam?</h2>
+      <p>Category चुनो, फिर exam</p>
+    </div>
+    <div id="comp-cat-view">
+      <div class="cat-list" id="comp-cat-list"></div>
+    </div>
+    <div id="comp-exam-view" style="display:none;">
+      <button class="back-btn" id="btn-comp-back"></button>
+      <h3 class="cat-title" id="comp-cat-title">—</h3>
+      <div class="cat-list" id="comp-exam-list"></div>
+    </div>
+    <div id="comp-lang-view" style="display:none;">
+      <h3 class="cat-title">भाषा चुनो</h3>
+      <div class="chip-grid" id="comp-lang-grid"></div>
+    </div>
+  </div>
+</div>
+
+<div id="home" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <div class="mini-logo" id="header-logo"></div>
+      <div>
+        <div class="greet" id="greet-name">नमस्ते</div>
+        <div class="greet-sub" id="greet-sub">Ready to learn?</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="icon-btn" id="btn-notif" style="position:relative;">
+        <span id="notif-bell-icon"></span>
+        <span class="notif-badge" id="notif-badge" style="display:none;">0</span>
+      </button>
+      <button class="icon-btn" id="btn-logout"></button>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="ds-stats">
+      <div class="ds-stat">
+        <span class="ds-stat-icon purple" id="ds-xp-icon"></span>
+        <div class="ds-stat-num" id="ds-xp">0</div>
+        <div class="ds-stat-lbl">XP</div>
+      </div>
+      <div class="ds-stat">
+        <span class="ds-stat-icon orange" id="ds-streak-icon"></span>
+        <div class="ds-stat-num" id="ds-streak">0</div>
+        <div class="ds-stat-lbl">Streak</div>
+      </div>
+      <div class="ds-stat">
+        <span class="ds-stat-icon blue" id="ds-tests-icon"></span>
+        <div class="ds-stat-num" id="ds-tests">0</div>
+        <div class="ds-stat-lbl">Tests</div>
+      </div>
+      <div class="ds-stat">
+        <span class="ds-stat-icon green" id="ds-avg-icon"></span>
+        <div class="ds-stat-num" id="ds-avg">0%</div>
+        <div class="ds-stat-lbl">Avg</div>
+      </div>
+    </div>
+    <div id="daily-box"></div>
+    <div class="profile-card">
+      <div class="pc-row"><span class="pc-label">Mode</span><span class="pc-value" id="pc-mode">—</span></div>
+      <div class="pc-row"><span class="pc-label" id="pc-label-1">Class</span><span class="pc-value" id="pc-value-1">—</span></div>
+      <div class="pc-row"><span class="pc-label" id="pc-label-2">Board</span><span class="pc-value" id="pc-value-2">—</span></div>
+    </div>
+    <button class="cta-big" id="btn-start-test">
+      <div class="cta-icon" id="cta-icon"></div>
+      <div class="cta-text">
+        <div class="cta-title">Start New Test</div>
+        <div class="cta-sub">AI fresh paper बनाएगा</div>
+      </div>
+      <div class="cta-arrow" id="cta-arrow"></div>
+    </button>
+    <div class="section-title">Recent Tests</div>
+    <div id="ds-recent"></div>
+    <div class="section-title">Learning Tools</div>
+    <div class="feature-grid">
+      <div class="feature-card" data-nav="notes"><div class="fc-icon" id="fc-notes"></div><div class="fc-title">AI Notes</div><div class="fc-sub">Topic से notes</div></div>
+      <div class="feature-card" data-nav="flashcards"><div class="fc-icon" id="fc-flash"></div><div class="fc-title">Flashcards</div><div class="fc-sub">Quick revision</div></div>
+      <div class="feature-card" data-nav="doubts"><div class="fc-icon" id="fc-doubt"></div><div class="fc-title">Ask AI</div><div class="fc-sub">Doubt solving</div></div>
+      <div class="feature-card" data-nav="history"><div class="fc-icon" id="fc-history"></div><div class="fc-title">My Results</div><div class="fc-sub">History</div></div>
+    </div>
+  </div>
+</div>
+
+<div id="shop" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <div class="mini-logo" id="shop-logo"></div>
+      <div><div class="greet">Shop</div><div class="greet-sub">Study essentials, curated for you</div></div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="search-bar">
+      <span class="icon" id="shop-search-icon"></span>
+      <input id="shop-search" placeholder="Books, gadgets, stationery..." />
+    </div>
+    <div class="cat-chips" id="shop-cats"></div>
+    <div id="featured-section">
+      <div class="section-title">Featured</div>
+      <div class="featured-scroll" id="featured-list"></div>
+    </div>
+    <div class="section-title">All Products</div>
+    <div class="products-grid" id="products-grid"></div>
+  </div>
+</div>
+
+<div id="product-detail" class="screen app-screen">
+  <div class="app-header">
+    <button class="back-btn" id="btn-pd-back" style="margin-bottom:0;"></button>
+    <div class="greet" style="flex:1;text-align:center;">Product</div>
+    <div style="width:42px;"></div>
+  </div>
+  <div class="home-content" id="pd-content"></div>
+</div>
+
+<div id="rank" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <div class="mini-logo" id="rank-logo"></div>
+      <div><div class="greet">Leaderboard</div><div class="greet-sub">Top students</div></div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="lb-tabs">
+      <button class="lb-tab active" data-tab="india">India</button>
+      <button class="lb-tab" data-tab="class">My Class</button>
+      <button class="lb-tab" data-tab="exam">My Exam</button>
+    </div>
+    <div id="lb-podium"></div>
+    <div id="lb-my-rank"></div>
+    <div class="section-title">Top Rankers</div>
+    <div id="lb-list"></div>
+  </div>
+</div>
+
+<div id="me" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <div class="mini-logo" id="me-logo"></div>
+      <div><div class="greet">Profile</div><div class="greet-sub">Your account</div></div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="profile-card" style="text-align:center;padding:30px 20px;">
+      <div style="width:80px;height:80px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:32px;font-weight:800;" id="me-avatar">P</div>
+      <div style="font-size:18px;font-weight:700;" id="me-name">Student</div>
+      <div class="muted" id="me-sub" style="margin-top:4px;">—</div>
+    </div>
+    <div class="me-stats">
+      <div class="me-stat"><span class="me-stat-icon" id="me-xp-icon"></span><div class="me-stat-num" id="me-xp">0</div><div class="me-stat-lbl">XP</div></div>
+      <div class="me-stat"><span class="me-stat-icon" id="me-streak-icon"></span><div class="me-stat-num" id="me-streak">0</div><div class="me-stat-lbl">Streak</div></div>
+      <div class="me-stat"><span class="me-stat-icon" id="me-tests-icon"></span><div class="me-stat-num" id="me-tests">0</div><div class="me-stat-lbl">Tests</div></div>
+    </div>
+    <div class="profile-card">
+      <div class="pc-row"><span class="pc-label">Mode</span><span class="pc-value" id="me-mode">—</span></div>
+      <div class="pc-row"><span class="pc-label">Class / Exam</span><span class="pc-value" id="me-class">—</span></div>
+      <div class="pc-row"><span class="pc-label">Board / Lang</span><span class="pc-value" id="me-board">—</span></div>
+    </div>
+    <div class="section-title">My Stuff</div>
+    <button class="menu-btn" id="btn-results-history"><span class="menu-icon" id="m1"></span><span class="menu-label">My Results</span><span class="menu-arrow">›</span></button>
+    <button class="menu-btn" id="btn-saved-papers"><span class="menu-icon" id="m2"></span><span class="menu-label">Saved Papers</span><span class="menu-arrow">›</span></button>
+    <button class="menu-btn" id="btn-badges"><span class="menu-icon" id="m3"></span><span class="menu-label">Badges & Achievements</span><span class="menu-arrow">›</span></button>
+    <div class="section-title">Study Tools</div>
+    <button class="menu-btn" id="btn-notes"><span class="menu-icon" id="m4"></span><span class="menu-label">AI Notes</span><span class="menu-arrow">›</span></button>
+    <button class="menu-btn" id="btn-flashcards"><span class="menu-icon" id="m5"></span><span class="menu-label">Flashcards</span><span class="menu-arrow">›</span></button>
+    <button class="menu-btn" id="btn-doubts"><span class="menu-icon" id="m6"></span><span class="menu-label">Ask AI (Doubt)</span><span class="menu-arrow">›</span></button>
+    <div class="section-title">Other</div>
+    <button class="menu-btn" id="btn-admin-shop"><span class="menu-icon" id="m7"></span><span class="menu-label">Manage Shop</span><span class="menu-arrow">›</span></button>
+    <button class="btn-social" id="btn-me-logout" style="background:#FFF1F1;border-color:#FFD5D5;color:var(--error);margin-top:12px;">
+      <span class="social-icon" id="me-logout-icon"></span><span>Logout</span>
+    </button>
+  </div>
+</div>
+
+<div id="results-history" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-rh-back" style="margin-bottom:0;"></button>
+      <div><div class="greet">My Results</div><div class="greet-sub">पिछले सारे tests</div></div>
+    </div>
+  </div>
+  <div class="home-content"><div id="rh-list"></div></div>
+</div>
+
+<div id="saved-papers" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-sp-back" style="margin-bottom:0;"></button>
+      <div><div class="greet">Saved Papers</div><div class="greet-sub">बाद में attempt करो</div></div>
+    </div>
+  </div>
+  <div class="home-content"><div id="sp-list"></div></div>
+</div>
+
+<div id="badges" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-badges-back" style="margin-bottom:0;"></button>
+      <div><div class="greet">Badges</div><div class="greet-sub" id="badges-count">0 / 10</div></div>
+    </div>
+  </div>
+  <div class="home-content"><div class="badges-grid" id="badges-grid"></div></div>
+</div>
+
+<div id="notes" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-notes-back" style="margin-bottom:0;"></button>
+      <div><div class="greet">AI Notes</div><div class="greet-sub">Topic से notes बनाओ</div></div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="profile-card">
+      <input type="text" id="note-topic" class="select-input" placeholder="Topic (जैसे Photosynthesis)" style="margin-bottom:10px;"/>
+      <input type="text" id="note-subject" class="select-input" placeholder="Subject (optional)" style="margin-bottom:10px;"/>
+      <button class="btn-primary" id="btn-note-generate">Generate Notes</button>
+    </div>
+    <div class="section-title">My Notes</div>
+    <div id="notes-list"></div>
+  </div>
+</div>
+
+<div id="note-view" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-nv-back" style="margin-bottom:0;"></button>
+      <div><div class="greet" id="nv-topic">Note</div><div class="greet-sub" id="nv-subject"></div></div>
+    </div>
+  </div>
+  <div class="home-content"><div class="note-content" id="nv-content"></div></div>
+</div>
+
+<div id="flashcards" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-fc-back" style="margin-bottom:0;"></button>
+      <div><div class="greet">Flashcards</div><div class="greet-sub">Quick revision</div></div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="profile-card">
+      <input type="text" id="fc-topic" class="select-input" placeholder="Topic (जैसे Trigonometry)" style="margin-bottom:10px;"/>
+      <input type="text" id="fc-subject" class="select-input" placeholder="Subject (optional)" style="margin-bottom:10px;"/>
+      <button class="btn-primary" id="btn-fc-generate">Generate Flashcards</button>
+    </div>
+    <div id="fc-view"></div>
+  </div>
+</div>
+
+<div id="doubts" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-doubt-back" style="margin-bottom:0;"></button>
+      <div><div class="greet">Ask AI</div><div class="greet-sub">कोई भी doubt पूछो</div></div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="profile-card">
+      <textarea id="doubt-input" class="select-input" rows="3" placeholder="अपना सवाल यहाँ लिखो..." style="margin-bottom:10px;"></textarea>
+      <button class="btn-primary" id="btn-doubt-ask">Ask AI</button>
+    </div>
+    <div class="section-title">Past Doubts</div>
+    <div id="doubt-list"></div>
+  </div>
+</div>
+
+<div id="notifications" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-notif-back" style="margin-bottom:0;"></button>
+      <div><div class="greet">Notifications</div><div class="greet-sub">Updates & reminders</div></div>
+    </div>
+  </div>
+  <div class="home-content"><div id="notif-list"></div></div>
+</div>
+
+<div id="admin-shop" class="screen">
+  <div class="exam-setup-wrap">
+    <div class="exam-header">
+      <button class="back-btn" id="btn-adm-back" style="margin-bottom:0;"></button>
+      <h2>Shop Manager</h2>
+      <div style="width:42px;"></div>
+    </div>
+    <div class="form-section"><label class="form-label">Product Title</label><input type="text" id="adm-title" class="select-input" placeholder="NCERT Class 10 Science" /></div>
+    <div class="form-section"><label class="form-label">Description</label><textarea id="adm-desc" class="select-input" rows="3" placeholder="Short description"></textarea></div>
+    <div class="form-section"><label class="form-label">Category</label><input type="text" id="adm-cat" class="select-input" placeholder="books / stationery / gadgets / merch" /></div>
+    <div class="form-section"><label class="form-label">Image URLs (comma separated)</label><input type="text" id="adm-imgs" class="select-input" placeholder="https://...,https://..." /></div>
+    <div class="form-section"><label class="form-label">Price Text</label><input type="text" id="adm-price" class="select-input" placeholder="₹199 - ₹450" /></div>
+    <div class="form-section"><label class="form-label">Flipkart Link</label><input type="text" id="adm-fk" class="select-input" placeholder="https://flipkart.com/..." /></div>
+    <div class="form-section"><label class="form-label">Amazon Link</label><input type="text" id="adm-amz" class="select-input" placeholder="https://amazon.in/..." /></div>
+    <div class="form-section"><label class="form-label">Meesho Link</label><input type="text" id="adm-meesho" class="select-input" placeholder="https://meesho.com/..." /></div>
+    <div class="form-section"><label class="form-label">Other Store Link</label><input type="text" id="adm-other" class="select-input" placeholder="https://..." /></div>
+    <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:10px;margin-bottom:24px;">
+      <button class="btn-secondary" id="btn-adm-clear">Clear</button>
+      <button class="btn-primary" id="btn-adm-save"><span id="adm-save-icon"></span><span>Save Product</span></button>
+    </div>
+    <div class="section-title">All Products</div>
+    <div id="adm-list"></div>
+  </div>
+</div>
+
+<div id="exam-setup" class="screen">
+  <div class="exam-setup-wrap">
+    <div class="exam-header">
+      <button class="back-btn" id="btn-exam-back" style="margin-bottom:0;"></button>
+      <h2>Test Setup</h2>
+      <div style="width:42px;"></div>
+    </div>
+    <div class="form-section"><label class="form-label">Subject</label><select id="es-subject" class="select-input"></select></div>
+    <div class="form-section"><label class="form-label">Chapters</label><div class="chapter-list" id="es-chapters"></div><button class="link-btn" id="btn-select-all">Select all</button></div>
+    <div class="form-section">
+      <label class="form-label">Test Type</label>
+      <div class="option-row" id="es-type">
+        <button class="opt-chip" data-val="mcq">MCQ Only</button>
+        <button class="opt-chip active" data-val="mixed">MCQ + Subjective</button>
+        <button class="opt-chip" data-val="subjective">Subjective</button>
+      </div>
+    </div>
+    <div class="form-section">
+      <label class="form-label">Difficulty</label>
+      <div class="option-row" id="es-diff">
+        <button class="opt-chip" data-val="easy">Easy</button>
+        <button class="opt-chip active" data-val="medium">Medium</button>
+        <button class="opt-chip" data-val="hard">Hard</button>
+      </div>
+    </div>
+    <div class="form-section">
+      <label class="form-label">Number of Questions</label>
+      <div class="option-row" id="es-count">
+        <button class="opt-chip" data-val="5">5</button>
+        <button class="opt-chip active" data-val="10">10</button>
+        <button class="opt-chip" data-val="15">15</button>
+        <button class="opt-chip" data-val="20">20</button>
+      </div>
+    </div>
+    <div class="form-section">
+      <label class="form-label">Duration (minutes)</label>
+      <div class="option-row" id="es-dur">
+        <button class="opt-chip" data-val="15">15</button>
+        <button class="opt-chip active" data-val="30">30</button>
+        <button class="opt-chip" data-val="60">60</button>
+        <button class="opt-chip" data-val="90">90</button>
+      </div>
+    </div>
+    <button class="btn-primary btn-generate" id="btn-generate">
+      <span id="btn-generate-icon"></span>
+      <span>Generate Test with AI</span>
+    </button>
+  </div>
+</div>
+
+<div id="generating" class="screen flex">
+  <div class="gen-wrap">
+    <div class="gen-icon" id="gen-icon"></div>
+    <h2 class="gen-title">AI पेपर बना रहा है</h2>
+    <p class="gen-sub">कृपया प्रतीक्षा करें...</p>
+    <div class="gen-bar"><div class="gen-bar-fill" id="gen-fill"></div></div>
+    <div class="gen-status" id="gen-status">Starting...</div>
+  </div>
+</div>
+
+<div id="paper" class="screen">
+  <div class="paper-wrap">
+    <div class="exam-header">
+      <button class="back-btn" id="btn-paper-back" style="margin-bottom:0;"></button>
+      <h2 id="paper-title">Test Paper</h2>
+      <div style="width:42px;"></div>
+    </div>
+    <div class="paper-info" id="paper-info"></div>
+    <div class="paper-questions" id="paper-questions"></div>
+    <div class="paper-actions">
+      <button class="btn-secondary" id="btn-save-paper">Save</button>
+      <button class="btn-secondary" id="btn-regen">नया</button>
+      <button class="btn-primary" id="btn-start-exam">Start</button>
+    </div>
+  </div>
+</div>
+
+<div id="exam-room" class="screen">
+  <div class="exam-room-wrap">
+    <div class="er-topbar">
+      <button class="er-icon-btn" id="btn-er-exit"></button>
+      <div class="er-timer" id="er-timer">
+        <span class="er-timer-icon" id="er-timer-icon"></span>
+        <span class="er-timer-text" id="er-timer-text">00:00</span>
+      </div>
+      <button class="er-icon-btn" id="btn-er-palette"></button>
+    </div>
+    <div class="er-progress"><div class="er-progress-fill" id="er-progress-fill"></div></div>
+    <div class="er-body" id="er-body">
+      <div class="er-q-header"><span class="er-q-num" id="er-q-num">Q1 / 10</span><span class="er-q-marks" id="er-q-marks">1 mark</span></div>
+      <div class="er-q-type" id="er-q-type">MCQ</div>
+      <div class="er-q-text" id="er-q-text">Question will appear here</div>
+      <div class="er-options" id="er-options"></div>
+      <div class="er-subjective" id="er-subjective" style="display:none;">
+        <textarea id="er-answer-input" placeholder="अपना उत्तर यहाँ लिखो..." rows="8"></textarea>
+        <div class="er-word-count" id="er-word-count">0 words</div>
+      </div>
+    </div>
+    <div class="er-footer">
+      <button class="er-nav-btn" id="btn-er-prev"><span id="er-prev-icon"></span><span>Prev</span></button>
+      <button class="er-mark-btn" id="btn-er-mark"><span id="er-mark-icon"></span></button>
+      <button class="er-nav-btn primary" id="btn-er-next"><span id="er-next-text">Next</span><span id="er-next-icon"></span></button>
+    </div>
+  </div>
+</div>
+
+<div id="palette-drawer" class="palette-drawer">
+  <div class="palette-panel">
+    <div class="palette-header"><h3>Questions</h3><button class="er-icon-btn" id="btn-palette-close"></button></div>
+    <div class="palette-legend">
+      <div class="legend-item"><span class="legend-dot answered"></span> Answered</div>
+      <div class="legend-item"><span class="legend-dot notanswered"></span> Not answered</div>
+      <div class="legend-item"><span class="legend-dot marked"></span> Marked</div>
+      <div class="legend-item"><span class="legend-dot"></span> Not visited</div>
+    </div>
+    <div class="palette-grid" id="palette-grid"></div>
+    <div class="palette-summary" id="palette-summary">
+      <div><strong>Answered:</strong> <span id="sum-answered">0</span></div>
+      <div><strong>Not answered:</strong> <span id="sum-notanswered">0</span></div>
+      <div><strong>Marked:</strong> <span id="sum-marked">0</span></div>
+    </div>
+    <button class="btn-primary" id="btn-submit-from-palette">Submit Test</button>
+  </div>
+</div>
+
+<div id="submit-confirm" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-icon" id="submit-modal-icon"></div>
+    <h3 class="modal-title">Test Submit करें?</h3>
+    <p class="modal-text">AI तुम्हारे subjective answers भी check करेगा.</p>
+    <div class="submit-stats" id="submit-stats"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" id="btn-cancel-submit">Cancel</button>
+      <button class="btn-primary" id="btn-confirm-submit"><span id="confirm-icon"></span><span>Submit</span></button>
+    </div>
+  </div>
+</div>
+
+<div id="exit-confirm" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-icon warn" id="exit-modal-icon"></div>
+    <h3 class="modal-title">Test छोड़ना है?</h3>
+    <p class="modal-text">Progress save हो जाएगा, बाद में resume कर सकोगे.</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" id="btn-cancel-exit">रुको</button>
+      <button class="btn-primary danger" id="btn-confirm-exit">हाँ, छोड़ो</button>
+    </div>
+  </div>
+</div>
+
+<div id="timeup" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-icon warn" id="timeup-icon"></div>
+    <h3 class="modal-title">समय समाप्त!</h3>
+    <p class="modal-text">Test auto-submit हो रहा है...</p>
+    <button class="btn-primary" id="btn-timeup-continue">ठीक है</button>
+  </div>
+</div>
+
+<div id="evaluating" class="screen flex">
+  <div class="gen-wrap">
+    <div class="gen-icon" id="eval-icon"></div>
+    <h2 class="gen-title">AI answer check कर रहा है</h2>
+    <p class="gen-sub" id="eval-status">Subjective answers evaluate हो रहे हैं...</p>
+    <div class="gen-bar"><div class="gen-bar-fill" style="width:70%;animation:pulse 1.5s infinite;"></div></div>
+    <div class="gen-status">इसमें 10-20 सेकंड लग सकते हैं</div>
+  </div>
+</div>
+
+<div id="result" class="screen">
+  <div class="result-wrap">
+    <div class="rs-hero">
+      <div class="rs-icon-box" id="rs-icon"></div>
+      <h1 class="rs-title">Test Complete!</h1>
+      <div class="rs-score-big" id="rs-score">0 / 0</div>
+      <div class="rs-percent" id="rs-percent">0%</div>
+      <div class="rs-grade" id="rs-grade">Grade: —</div>
+      <div class="rs-time-row"><span id="rs-time">—</span></div>
+    </div>
+    <div class="rs-stats" id="rs-stats"></div>
+    <div class="rs-ai-box" id="rs-ai-box" style="display:none;">
+      <div class="rs-box-header"><span id="rs-ai-icon"></span><span class="rs-box-title">AI Feedback</span></div>
+      <p class="rs-ai-text" id="rs-ai-text"></p>
+    </div>
+    <div class="rs-topic-box" id="rs-weak-box" style="display:none;">
+      <div class="rs-box-header"><span id="rs-weak-icon"></span><span class="rs-box-title">कमज़ोर Topics</span></div>
+      <div class="rs-tags" id="rs-weak-tags"></div>
+    </div>
+    <div class="rs-topic-box" id="rs-strong-box" style="display:none;">
+      <div class="rs-box-header"><span id="rs-strong-icon"></span><span class="rs-box-title">मज़बूत Topics</span></div>
+      <div class="rs-tags" id="rs-strong-tags"></div>
+    </div>
+    <button class="btn-cert-cta" id="btn-rs-certificate">
+      <span class="cert-cta-icon" id="rs-cert-icon"></span>
+      <div class="cert-cta-text">
+        <div class="cert-cta-title">Get Certificate</div>
+        <div class="cert-cta-sub">PDF + WhatsApp</div>
+      </div>
+      <span class="cert-cta-arrow" id="rs-cert-arrow"></span>
+    </button>
+    <div class="rs-actions">
+      <button class="btn-secondary" id="btn-rs-review"><span id="btn-rs-review-icon"></span><span>Review</span></button>
+      <button class="btn-secondary" id="btn-rs-retake"><span id="btn-rs-retake-icon"></span><span>New Test</span></button>
+    </div>
+    <button class="btn-primary" id="btn-rs-home"><span id="btn-rs-home-icon"></span><span>Home</span></button>
+  </div>
+</div>
+
+<div id="review" class="screen">
+  <div class="paper-wrap">
+    <div class="exam-header">
+      <button class="back-btn" id="btn-review-back" style="margin-bottom:0;"><span id="btn-review-back-icon"></span></button>
+      <h2>Question Review</h2>
+      <div style="width:42px;"></div>
+    </div>
+    <div id="review-list"></div>
+  </div>
+</div>
+
+<div id="certificate" class="screen">
+  <div class="cert-wrap">
+    <div class="cert-actions-top">
+      <button class="back-btn" id="btn-cert-home" style="margin-bottom:0;"><span id="btn-cert-home-icon"></span></button>
+      <div style="width:42px;"></div>
+    </div>
+    <div class="cert-paper" id="cert-paper">
+      <div class="cert-border-outer">
+        <div class="cert-border-inner">
+          <div class="cert-header"><div class="cert-logo"><span class="cert-logo-mark">P</span><div><div class="cert-logo-name">PreX</div><div class="cert-logo-sub">AI Test App</div></div></div></div>
+          <div class="cert-title-main">CERTIFICATE</div>
+          <div class="cert-title-sub">OF ACHIEVEMENT</div>
+          <div class="cert-line">This is to certify that</div>
+          <div class="cert-student" id="cert-name">Student Name</div>
+          <div class="cert-divider"></div>
+          <div class="cert-line">has successfully completed the test</div>
+          <div class="cert-exam-title" id="cert-exam">Test Title</div>
+          <div class="cert-subject" id="cert-subject">Subject</div>
+          <div class="cert-score-row">
+            <div class="cert-score-box"><div class="cert-score-lbl">SCORE</div><div class="cert-score-val" id="cert-score">0 / 0</div></div>
+            <div class="cert-score-box"><div class="cert-score-lbl">PERCENTAGE</div><div class="cert-score-val green" id="cert-percent">0%</div></div>
+            <div class="cert-score-box"><div class="cert-score-lbl">GRADE</div><div class="cert-score-val purple" id="cert-grade">A+</div></div>
+          </div>
+          <div class="cert-bottom">
+            <div class="cert-left">
+              <div class="cert-line-sm">Date: <span id="cert-date">—</span></div>
+              <div class="cert-line-sm">Verify: <span id="cert-code">—</span></div>
+              <div class="cert-verify-url" id="cert-verify-link">—</div>
+            </div>
+            <div class="cert-right"><img class="cert-qr" id="cert-qr" src="" alt="QR" /></div>
+          </div>
+          <div class="cert-sign"><div class="cert-sign-line"></div><div class="cert-sign-lbl">Authorized Signature</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="cert-actions">
+      <button class="cert-action-btn primary" id="btn-cert-download"><span id="cert-dl-icon"></span><span>Download PDF</span></button>
+      <button class="cert-action-btn whatsapp" id="btn-cert-whatsapp"><span id="cert-wa-icon"></span><span>WhatsApp</span></button>
+      <button class="cert-action-btn" id="btn-cert-share"><span id="cert-share-icon"></span><span>Share</span></button>
+      <button class="cert-action-btn" id="btn-cert-copy"><span id="cert-copy-icon"></span><span>Copy Link</span></button>
+    </div>
+    <button class="btn-secondary" id="btn-cert-retake" style="margin-top:10px;">
+      <span id="cert-retake-icon"></span><span>New Test</span>
+    </button>
+  </div>
+</div>
+
+<div id="error" class="screen flex">
+  <div class="welcome-wrap">
+    <div class="welcome-icon error" id="error-icon"></div>
+    <h2 class="welcome-title">कुछ गड़बड़ हो गई</h2>
+    <p id="error-msg" class="muted" style="margin-bottom:20px;">—</p>
+    <button class="btn-primary" onclick="location.reload()">दोबारा कोशिश करो</button>
+  </div>
+</div>
+
+<div class="bottom-nav" id="bottom-nav" style="display:none;">
+  <button class="nav-item" data-nav="home"><span class="icon" data-icon="home"></span><span class="nav-item-label">Home</span></button>
+  <button class="nav-item" data-nav="shop"><span class="icon" data-icon="bag"></span><span class="nav-item-label">Shop</span></button>
+  <button class="nav-item center" data-nav="test"><span class="nav-center-icon"><span class="icon" data-icon="plus" style="width:26px;height:26px;"></span></span><span class="nav-item-label">Test</span></button>
+  <button class="nav-item" data-nav="rank"><span class="icon" data-icon="trophy"></span><span class="nav-item-label">Rank</span></button>
+  <button class="nav-item" data-nav="me"><span class="icon" data-icon="user"></span><span class="nav-item-label">Me</span></button>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/config.js"></script>
 <script src="js/icons.js"></script>
 <script src="js/supabase.js"></script>
-<script>
-setTimeout(function() {
-  document.getElementById('r1').textContent = 
-    "config.js: " + (typeof SUPABASE_URL !== 'undefined' ? "✅ OK" : "❌ FAILED");
-  document.getElementById('r2').textContent = 
-    "icons.js: " + (typeof ICONS !== 'undefined' ? "✅ OK" : "❌ FAILED");
-  document.getElementById('r3').textContent = 
-    "supabase.js: " + (typeof initSupabase !== 'undefined' ? "✅ OK" : "❌ FAILED");
-  document.getElementById('r4').textContent = 
-    "style.css: " + (document.styleSheets.length > 0 ? "✅ OK" : "❌ FAILED");
-}, 1000);
-</script>
+<script src="js/guest.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/exams.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/ai-eval.js"></script>
+<script src="js/qrcode.js"></script>
+<script src="js/certificate.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/leaderboard.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/admin-shop.js"></script>
+<script src="js/results-history.js"></script>
+<script src="js/saved-papers.js"></script>
+<script src="js/daily-challenge.js"></script>
+<script src="js/badges.js"></script>
+<script src="js/notes.js"></script>
+<script src="js/flashcards.js"></script>
+<script src="js/doubts.js"></script>
+<script src="js/exam-setup.js"></script>
+<script src="js/exam-room.js"></script>
+<script src="js/result.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
