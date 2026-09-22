@@ -289,6 +289,99 @@
   </div>
 </div>
 
+<!-- EXAM SETUP -->
+<div id="exam-setup" class="screen">
+  <div class="exam-setup-wrap">
+    <div class="exam-header">
+      <button class="back-btn" id="btn-exam-back" style="margin-bottom:0;"></button>
+      <h2>Test Setup</h2>
+      <div style="width:42px;"></div>
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Subject</label>
+      <select id="es-subject" class="select-input"></select>
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Chapters</label>
+      <div class="chapter-list" id="es-chapters"></div>
+      <button class="link-btn" id="btn-select-all">Select all</button>
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Test Type</label>
+      <div class="option-row" id="es-type">
+        <button class="opt-chip" data-val="mcq">MCQ Only</button>
+        <button class="opt-chip active" data-val="mixed">MCQ + Subjective</button>
+        <button class="opt-chip" data-val="subjective">Subjective</button>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Difficulty</label>
+      <div class="option-row" id="es-diff">
+        <button class="opt-chip" data-val="easy">Easy</button>
+        <button class="opt-chip active" data-val="medium">Medium</button>
+        <button class="opt-chip" data-val="hard">Hard</button>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Number of Questions</label>
+      <div class="option-row" id="es-count">
+        <button class="opt-chip" data-val="5">5</button>
+        <button class="opt-chip active" data-val="10">10</button>
+        <button class="opt-chip" data-val="15">15</button>
+        <button class="opt-chip" data-val="20">20</button>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <label class="form-label">Duration (minutes)</label>
+      <div class="option-row" id="es-dur">
+        <button class="opt-chip" data-val="15">15</button>
+        <button class="opt-chip active" data-val="30">30</button>
+        <button class="opt-chip" data-val="60">60</button>
+        <button class="opt-chip" data-val="90">90</button>
+      </div>
+    </div>
+
+    <button class="btn-primary btn-generate" id="btn-generate">
+      <span id="btn-generate-icon"></span>
+      <span>Generate Test with AI</span>
+    </button>
+  </div>
+</div>
+
+<!-- GENERATING -->
+<div id="generating" class="screen flex">
+  <div class="gen-wrap">
+    <div class="gen-icon" id="gen-icon"></div>
+    <h2 class="gen-title">AI पेपर बना रहा है</h2>
+    <p class="gen-sub">कृपया प्रतीक्षा करें...</p>
+    <div class="gen-bar"><div class="gen-bar-fill" id="gen-fill"></div></div>
+    <div class="gen-status" id="gen-status">Starting...</div>
+  </div>
+</div>
+
+<!-- PAPER PREVIEW -->
+<div id="paper" class="screen">
+  <div class="paper-wrap">
+    <div class="exam-header">
+      <button class="back-btn" id="btn-paper-back" style="margin-bottom:0;"></button>
+      <h2 id="paper-title">Test Paper</h2>
+      <div style="width:42px;"></div>
+    </div>
+    <div class="paper-info" id="paper-info"></div>
+    <div class="paper-questions" id="paper-questions"></div>
+    <div class="paper-actions">
+      <button class="btn-secondary" id="btn-regen">नया Paper</button>
+      <button class="btn-primary" id="btn-start-exam">Start Exam</button>
+    </div>
+  </div>
+</div>
+
 <!-- ERROR -->
 <div id="error" class="screen flex">
   <div class="welcome-wrap">
@@ -311,10 +404,7 @@
 <!-- TOAST -->
 <div id="toast" class="toast"></div>
 
-<!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<!-- App files (order matters) -->
 <script src="js/config.js"></script>
 <script src="js/icons.js"></script>
 <script src="js/supabase.js"></script>
@@ -322,6 +412,8 @@
 <script src="js/auth.js"></script>
 <script src="js/exams.js"></script>
 <script src="js/shop.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/exam-setup.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
