@@ -228,5 +228,8 @@ document.addEventListener("click", (e) => {
 });
 
 document.addEventListener("click", (e) => {
-  if (e.target.closest("#btn-start-exam")) toast("Exam Room Part 3 में आएगा", "success");
+  if (e.target.closest("#btn-start-exam")) {
+    if (!ExamSetup.currentPaper) return toast("Paper तैयार नहीं", "error");
+    ExamRoom.start(ExamSetup.currentPaper, ExamSetup.config.duration);
+  }
 });
