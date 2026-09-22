@@ -1,5 +1,5 @@
 // ============================================
-// EXAM ROOM - Full Test UI
+// EXAM ROOM
 // ============================================
 
 const ExamRoom = {
@@ -12,8 +12,9 @@ const ExamRoom = {
   totalTime: 0,
   timerId: null,
   draftKey: "prex_exam_draft",
+  provider: null,
 
-  start(paper, durationMin) {
+  start(paper, durationMin, provider) {
     this.paper = paper;
     this.current = 0;
     this.answers = {};
@@ -21,6 +22,7 @@ const ExamRoom = {
     this.visited = { 0: true };
     this.totalTime = durationMin * 60;
     this.timeLeft = this.totalTime;
+    this.provider = provider || null;
 
     this.tryRestoreDraft();
     this.render();
@@ -262,7 +264,7 @@ const ExamRoom = {
     const notAns = total - answered;
 
     setHTML("submit-stats", `
-      <div class="stat-row"><span class="stat-label">Total Questions</span><span class="stat-value">${total}</span></div>
+      <div class="stat-row"><span class="stat-label">Total</span><span class="stat-value">${total}</span></div>
       <div class="stat-row"><span class="stat-label">Answered</span><span class="stat-value">${answered}</span></div>
       <div class="stat-row"><span class="stat-label">Not Answered</span><span class="stat-value ${notAns > 0 ? "danger" : ""}">${notAns}</span></div>
       <div class="stat-row"><span class="stat-label">Marked</span><span class="stat-value ${marked > 0 ? "warn" : ""}">${marked}</span></div>
@@ -281,9 +283,13 @@ const ExamRoom = {
     this.submit();
   },
 
-  submit() {
+  async submit() {
     this.stopTimer();
 
+    // Show evaluating screen
+    Screen.show("evaluating");
+
+    // Build answer string
     const answersList = [];
     const total = this.paper.questions.length;
     for (let i = 0; i < total; i++) {
@@ -292,55 +298,144 @@ const ExamRoom = {
       else if (typeof a === "string" && a.length === 1 && a.match(/[A-F]/)) answersList.push(a);
       else answersList.push("S");
     }
+    const answerStr = answersList.join("");
 
-    let score = 0, totalMarks = 0;
+    // MCQ score
+    let mcqScore = 0, totalMarks = 0;
     for (let i = 0; i < total; i++) {
       const q = this.paper.questions[i];
       const marks = q.marks || 1;
       totalMarks += marks;
-      if (q.type === "mcq" && this.answers[i] === q.correct_answer) score += marks;
+      if (q.type === "mcq" && this.answers[i] === q.correct_answer) mcqScore += marks;
     }
 
-    App.state.lastResult = {
+    // AI evaluation for subjective
+    let subjectiveEval = [];
+    let aiFeedback = "";
+    let weakTopics = [];
+    let strongTopics = [];
+    let subjectiveScore = 0;
+
+    try {
+      const hasSubjective = this.paper.questions.some((q) => q.type === "subjective");
+      if (hasSubjective) {
+        setText("eval-status", "AI answers check कर रहा है...");
+        const evalRes = await AIEval.evaluate(this.paper, this.answers);
+        subjectiveEval = evalRes.evaluations || [];
+        weakTopics = evalRes.weak_topics || [];
+        strongTopics = evalRes.strong_topics || [];
+        aiFeedback = evalRes.overall_feedback || "";
+
+        // Add subjective score
+        subjectiveEval.forEach((e) => { subjectiveScore += (e.awarded || 0); });
+      }
+    } catch (e) {
+      console.warn("AI eval failed:", e);
+      aiFeedback = "AI evaluation failed. Subjective answers manually check करो.";
+    }
+
+    const finalScore = mcqScore + subjectiveScore;
+    const timeUsed = this.totalTime - this.timeLeft;
+
+    // Result object
+    const resultData = {
       paper: this.paper,
       answers: this.answers,
-      answerStr: answersList.join(""),
-      score,
+      answerStr,
+      score: finalScore,
       totalMarks,
-      timeUsed: this.totalTime - this.timeLeft,
+      timeUsed,
+      subjectiveEval,
+      weakTopics,
+      strongTopics,
+      aiFeedback,
+      provider: this.provider,
+      subject: ExamSetup.config.subject,
+      examTitle: this.paper.title || "Test",
+      examCategory: State.profile?.exam_category || null,
     };
 
+    App.state.lastResult = resultData;
+
+    // Save to DB (best-effort)
+    this.saveToBackend(resultData);
+
+    // Clear draft
     this.clearDraft();
-    toast("Test submitted!", "success");
-    this.showResult();
+
+    // Show result
+    Result.show(resultData);
   },
 
-  showResult() {
-    const r = App.state.lastResult;
-    const percent = r.totalMarks ? Math.round((r.score / r.totalMarks) * 100) : 0;
+  async saveToBackend(resultData) {
+    try {
+      if (State.isGuest) {
+        const history = JSON.parse(localStorage.getItem("prex_guest_results") || "[]");
+        history.unshift({
+          score: resultData.score,
+          total: resultData.totalMarks,
+          subject: resultData.subject,
+          at: new Date().toISOString(),
+        });
+        localStorage.setItem("prex_guest_results", JSON.stringify(history.slice(0, 10)));
+        return;
+      }
 
-    setText("res-score", r.score + " / " + r.totalMarks);
-    setText("res-percent", percent + "%");
-    setText("res-time", this.formatTime(r.timeUsed));
+      const userId = State.user?.id;
+      if (!userId) return;
 
-    let correct = 0, wrong = 0, skipped = 0;
-    const total = r.paper.questions.length;
-    for (let i = 0; i < total; i++) {
-      const q = r.paper.questions[i];
-      const a = r.answers[i];
-      if (a === undefined || a === "") skipped++;
-      else if (q.type === "mcq" && a === q.correct_answer) correct++;
-      else if (q.type === "mcq") wrong++;
+      const { data: attempt, error: e1 } = await supabase
+        .from("attempts")
+        .insert({
+          user_id: userId,
+          exam_category: resultData.examCategory,
+          exam_title: resultData.examTitle,
+          subject: resultData.subject,
+          paper_json: resultData.paper,
+          answer_str: resultData.answerStr,
+          score: resultData.score,
+          total: resultData.totalMarks,
+          time_sec: resultData.timeUsed,
+          status: "submitted",
+          ai_provider: resultData.provider,
+        })
+        .select()
+        .single();
+
+      if (e1) throw e1;
+
+      const percent = resultData.totalMarks
+        ? Math.round((resultData.score / resultData.totalMarks) * 100)
+        : 0;
+
+      let grade = "F";
+      if (percent >= 90) grade = "A+";
+      else if (percent >= 80) grade = "A";
+      else if (percent >= 70) grade = "B+";
+      else if (percent >= 60) grade = "B";
+      else if (percent >= 50) grade = "C";
+      else if (percent >= 40) grade = "D";
+
+      await supabase.from("results").insert({
+        user_id: userId,
+        attempt_id: attempt.id,
+        exam_title: resultData.examTitle,
+        subject: resultData.subject,
+        score: resultData.score,
+        total: resultData.totalMarks,
+        percent,
+        grade,
+        weak_topics: resultData.weakTopics,
+        strong_topics: resultData.strongTopics,
+        ai_feedback: resultData.aiFeedback,
+        subjective_eval: resultData.subjectiveEval,
+      });
+
+      // cleanup old attempts
+      supabase.rpc("cleanup_old_attempts").then(() => {}).catch(() => {});
+    } catch (e) {
+      console.warn("Save failed:", e);
     }
-
-    setHTML("res-breakdown", `
-      <div class="pc-row"><span class="pc-label">Correct</span><span class="pc-value" style="color:var(--success);">${correct}</span></div>
-      <div class="pc-row"><span class="pc-label">Wrong</span><span class="pc-value" style="color:var(--error);">${wrong}</span></div>
-      <div class="pc-row"><span class="pc-label">Skipped</span><span class="pc-value">${skipped}</span></div>
-      <div class="pc-row"><span class="pc-label">Subjective</span><span class="pc-value muted">AI eval Part 5</span></div>
-    `);
-
-    Screen.show("result");
   },
 
   formatTime(sec) {
@@ -388,9 +483,5 @@ document.addEventListener("click", (e) => {
   if (e.target.closest("#btn-timeup-continue")) {
     document.getElementById("timeup").classList.remove("open");
     ExamRoom.submit();
-  }
-
-  if (e.target.closest("#btn-result-home")) {
-    Screen.show("home");
   }
 });
