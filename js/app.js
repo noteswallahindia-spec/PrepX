@@ -57,10 +57,6 @@ function injectIcons() {
   setHTML("me-logout-icon", icon("logout", 20));
   setHTML("cta-icon", icon("sparkle", 26));
   setHTML("cta-arrow", icon("arrowRight", 20));
-  setHTML("fc1", icon("sparkle", 22));
-  setHTML("fc2", icon("bag", 22));
-  setHTML("fc3", icon("trophy", 22));
-  setHTML("fc4", icon("user", 22));
   setHTML("error-icon", icon("alert", 48));
   setHTML("mode-icon-school", icon("book", 28));
   setHTML("mode-icon-competitive", icon("trophy", 28));
@@ -73,7 +69,6 @@ function injectIcons() {
   setHTML("btn-generate-icon", icon("sparkle", 20));
   setHTML("gen-icon", icon("sparkle", 52));
 
-  // Exam Room
   setHTML("er-timer-icon", icon("clock", 18));
   setHTML("btn-er-exit", icon("close", 20));
   setHTML("btn-er-palette", icon("grid", 20));
@@ -86,10 +81,8 @@ function injectIcons() {
   setHTML("exit-modal-icon", icon("alert", 32));
   setHTML("timeup-icon", icon("clock", 32));
 
-  // Evaluating
   setHTML("eval-icon", icon("brain", 52));
 
-  // Result
   setHTML("rs-icon", icon("check", 40));
   setHTML("rs-ai-icon", icon("brain", 22));
   setHTML("rs-weak-icon", icon("chart", 20));
@@ -101,13 +94,29 @@ function injectIcons() {
   setHTML("btn-rs-retake-icon", icon("refresh", 18));
   setHTML("btn-review-back-icon", icon("arrowLeft", 18));
 
-  // Certificate
   setHTML("btn-cert-home-icon", icon("home", 18));
   setHTML("cert-dl-icon", icon("download", 18));
   setHTML("cert-wa-icon", icon("whatsapp", 18));
   setHTML("cert-share-icon", icon("share", 18));
   setHTML("cert-copy-icon", icon("link", 18));
   setHTML("cert-retake-icon", icon("refresh", 18));
+
+  // Part 6 - Dashboard
+  setHTML("ds-xp-icon", icon("zap", 20));
+  setHTML("ds-streak-icon", icon("flame", 20));
+  setHTML("ds-tests-icon", icon("target", 20));
+  setHTML("ds-avg-icon", icon("trending", 20));
+  setHTML("rank-podium-icon", icon("trophy", 22));
+
+  // Profile stats
+  setHTML("me-xp-icon", icon("zap", 20));
+  setHTML("me-streak-icon", icon("flame", 20));
+  setHTML("me-tests-icon", icon("target", 20));
+
+  // Profile menu icons
+  setHTML("me-menu-1-icon", icon("book", 20));
+  setHTML("me-menu-2-icon", icon("award", 20));
+  setHTML("me-menu-3-icon", icon("chart", 20));
 
   document.querySelectorAll(".nav-item [data-icon]").forEach((el) => {
     el.innerHTML = ICONS[el.dataset.icon] || "";
@@ -431,7 +440,7 @@ async function saveProfile(data) {
   }
 }
 
-function showHome() {
+async function showHome() {
   const p = State.profile;
   const h = new Date().getHours();
   const g = h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
@@ -453,6 +462,9 @@ function showHome() {
   }
 
   Screen.show("home");
+
+  // Load dashboard data
+  Dashboard.load().then(() => Dashboard.render());
 }
 
 document.addEventListener("click", async (e) => {
@@ -474,9 +486,9 @@ document.addEventListener("click", (e) => {
   const nav = e.target.closest(".nav-item");
   if (!nav) return;
   const t = nav.dataset.nav;
-  if (t === "home") Screen.show("home");
+  if (t === "home") showHome();
   else if (t === "shop") openShop();
-  else if (t === "rank") Screen.show("rank");
+  else if (t === "rank") Leaderboard.open();
   else if (t === "me") openMe();
   else if (t === "test") ExamSetup.open();
 });
@@ -486,7 +498,7 @@ document.addEventListener("click", (e) => {
   if (!card) return;
   const t = card.dataset.nav;
   if (t === "shop") openShop();
-  else if (t === "rank") Screen.show("rank");
+  else if (t === "rank") Leaderboard.open();
   else if (t === "me") openMe();
   else if (t === "test") ExamSetup.open();
 });
@@ -495,7 +507,7 @@ document.addEventListener("click", (e) => {
   if (e.target.closest("#btn-start-test")) ExamSetup.open();
 });
 
-function openMe() {
+async function openMe() {
   const p = State.profile;
   setText("me-name", p.name || "Student");
   setText("me-sub", State.isGuest ? "Guest User" : "Signed In");
@@ -509,7 +521,15 @@ function openMe() {
     setText("me-class", "Class " + (p.cls || "—"));
     setText("me-board", (p.board || "—") + " • " + (p.lang === "hi" ? "हिंदी" : p.lang === "en" ? "English" : "Both"));
   }
+
   Screen.show("me");
+
+  // Load stats
+  await Dashboard.load();
+  const s = Dashboard.stats || {};
+  setText("me-xp", Dashboard.formatNum(s.xp || 0));
+  setText("me-streak", s.streak || 0);
+  setText("me-tests", s.tests_taken || 0);
 }
 
 async function openShop() {
@@ -567,12 +587,4 @@ document.addEventListener("click", (e) => {
 
 function openProductDetail(p) {
   Shop.currentProduct = p;
-  const img = (p.images && p.images[0]) || "https://via.placeholder.com/600x800?text=Product";
-  const stars = "★".repeat(Math.round(p.rating || 0)) + "☆".repeat(5 - Math.round(p.rating || 0));
-  const links = p.links || {};
-
-  let marketsHTML = "";
-  if (links.flipkart) marketsHTML += Shop.marketBtnHTML("flipkart", "Flipkart", "Best deals & fast delivery", links.flipkart);
-  if (links.amazon) marketsHTML += Shop.marketBtnHTML("amazon", "amazon", "Wide range & trusted delivery", links.amazon);
-  if (links.meesho) marketsHTML += Shop.marketBtnHTML("meesho", "meesho", "Great prices & more offers", links.meesho);
-  if (links.other) marketsHTML += Shop.marketBtnHTML("other", "Other Stores", "Ch
+  const img = (p.images && p
