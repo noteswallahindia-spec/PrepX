@@ -179,9 +179,6 @@ const ExamSetup = {
   },
 };
 
-// ============================================
-// EVENT WIRING
-// ============================================
 document.addEventListener("click", (e) => {
   if (e.target.closest("#btn-exam-back")) Screen.show("home");
 });
