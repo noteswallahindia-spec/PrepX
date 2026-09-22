@@ -9,9 +9,9 @@ const State = {
   authMode: "login",
   setupData: { mode: null, cls: null, board: null, lang: null, examCategory: null, examName: null },
   setupStep: 1,
+  lastResult: null,
 };
 
-// SCREEN ROUTER
 const Screen = {
   show(id) {
     document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
@@ -26,7 +26,6 @@ const Screen = {
   },
 };
 
-// HELPERS
 function toast(msg, type = "") {
   const el = document.getElementById("toast");
   el.textContent = msg;
@@ -38,7 +37,6 @@ const setText = (id, t) => { const e = document.getElementById(id); if (e) e.tex
 const setHTML = (id, h) => { const e = document.getElementById(id); if (e) e.innerHTML = h; };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// ICONS INJECT
 function injectIcons() {
   setHTML("splash-logo", icon("logo", 72));
   setHTML("welcome-icon", icon("sparkle", 48));
@@ -87,14 +85,25 @@ function injectIcons() {
   setHTML("confirm-icon", icon("send", 18));
   setHTML("exit-modal-icon", icon("alert", 32));
   setHTML("timeup-icon", icon("clock", 32));
-  setHTML("res-icon", icon("check", 48));
+
+  // Evaluating
+  setHTML("eval-icon", icon("brain", 52));
+
+  // Result
+  setHTML("rs-icon", icon("check", 40));
+  setHTML("rs-ai-icon", icon("brain", 22));
+  setHTML("rs-weak-icon", icon("chart", 20));
+  setHTML("rs-strong-icon", icon("star", 20));
+  setHTML("btn-rs-home-icon", icon("home", 18));
+  setHTML("btn-rs-review-icon", icon("book", 18));
+  setHTML("btn-rs-retake-icon", icon("refresh", 18));
+  setHTML("btn-review-back-icon", icon("arrowLeft", 18));
 
   document.querySelectorAll(".nav-item [data-icon]").forEach((el) => {
     el.innerHTML = ICONS[el.dataset.icon] || "";
   });
 }
 
-// START
 async function startApp() {
   injectIcons();
   Screen.show("splash");
@@ -152,7 +161,6 @@ function showError(msg) {
   setText("error-msg", msg);
 }
 
-// WELCOME → AUTH
 document.addEventListener("click", (e) => {
   if (e.target.closest("#btn-get-started")) {
     Screen.show("auth");
@@ -186,7 +194,6 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// AUTH SUBMIT
 document.addEventListener("submit", async (e) => {
   if (e.target.id !== "auth-form") return;
   e.preventDefault();
@@ -243,7 +250,6 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// SETUP MODE
 document.addEventListener("click", (e) => {
   const card = e.target.closest(".mode-card");
   if (!card) return;
@@ -257,7 +263,6 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// SCHOOL SETUP
 function buildSchoolSetup() {
   State.setupStep = 1;
   State.setupData.cls = null;
@@ -311,7 +316,6 @@ document.addEventListener("click", async (e) => {
   await saveProfile({ mode: "school", cls: d.cls, board: d.board, lang: d.lang });
 });
 
-// COMPETITIVE SETUP
 async function loadCompetitiveView() {
   document.getElementById("comp-cat-view").style.display = "block";
   document.getElementById("comp-exam-view").style.display = "none";
@@ -386,7 +390,6 @@ document.addEventListener("click", async (e) => {
   });
 });
 
-// SAVE PROFILE
 async function saveProfile(data) {
   const profile = {
     id: State.user.id,
@@ -416,7 +419,6 @@ async function saveProfile(data) {
   }
 }
 
-// HOME
 function showHome() {
   const p = State.profile;
   const h = new Date().getHours();
@@ -441,7 +443,6 @@ function showHome() {
   Screen.show("home");
 }
 
-// LOGOUT
 document.addEventListener("click", async (e) => {
   if (e.target.closest("#btn-logout") || e.target.closest("#btn-me-logout")) {
     if (State.isGuest) {
@@ -457,7 +458,6 @@ document.addEventListener("click", async (e) => {
   }
 });
 
-// BOTTOM NAV
 document.addEventListener("click", (e) => {
   const nav = e.target.closest(".nav-item");
   if (!nav) return;
@@ -469,7 +469,6 @@ document.addEventListener("click", (e) => {
   else if (t === "test") ExamSetup.open();
 });
 
-// Quick access on home
 document.addEventListener("click", (e) => {
   const card = e.target.closest(".feature-card[data-nav]");
   if (!card) return;
@@ -480,12 +479,10 @@ document.addEventListener("click", (e) => {
   else if (t === "test") ExamSetup.open();
 });
 
-// Home CTA button
 document.addEventListener("click", (e) => {
   if (e.target.closest("#btn-start-test")) ExamSetup.open();
 });
 
-// ME
 function openMe() {
   const p = State.profile;
   setText("me-name", p.name || "Student");
@@ -503,7 +500,6 @@ function openMe() {
   Screen.show("me");
 }
 
-// SHOP
 async function openShop() {
   Screen.show("shop");
   if (!Shop.products.length) {
@@ -540,13 +536,10 @@ function renderProducts() {
   if (featured.length) {
     fsec.style.display = "block";
     setHTML("featured-list", featured.map(Shop.featuredCardHTML).join(""));
-  } else {
-    fsec.style.display = "none";
-  }
+  } else fsec.style.display = "none";
 
   if (!list.length) {
     setHTML("products-grid", `<div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--muted);">
-      <div style="font-size:32px;margin-bottom:8px;opacity:.4;">—</div>
       कोई product नहीं मिला</div>`);
   } else {
     setHTML("products-grid", list.map(Shop.productCardHTML).join(""));
@@ -560,7 +553,6 @@ document.addEventListener("click", (e) => {
   if (p) openProductDetail(p);
 });
 
-// PRODUCT DETAIL
 function openProductDetail(p) {
   Shop.currentProduct = p;
   const img = (p.images && p.images[0]) || "https://via.placeholder.com/600x800?text=Product";
@@ -579,7 +571,4 @@ function openProductDetail(p) {
   setHTML("pd-content", `
     <img class="product-detail-img" src="${img}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/600x800?text=Product'"/>
     ${p.badge ? `<div class="pd-badge">${p.badge}</div>` : ""}
-    <div class="pd-title">${p.title}</div>
-    <div class="pd-rating">
-      <span class="pd-stars">${stars}</span>
-      <sp
+    <div class="pd-title">
