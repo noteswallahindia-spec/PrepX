@@ -55,13 +55,12 @@ function injectIcons() {
   setHTML("notif-bell-icon", icon("bell", 20));
   setHTML("btn-logout", icon("logout", 18));
   setHTML("me-logout-icon", icon("logout", 20));
-  setHTML("me-menu-shop-icon", icon("package", 20));
   setHTML("cta-icon", icon("sparkle", 26));
   setHTML("cta-arrow", icon("arrowRight", 20));
-  setHTML("fc1", icon("sparkle", 22));
-  setHTML("fc2", icon("bag", 22));
-  setHTML("fc3", icon("trophy", 22));
-  setHTML("fc4", icon("user", 22));
+  setHTML("fc-notes", icon("book", 22));
+  setHTML("fc-flash", icon("star", 22));
+  setHTML("fc-doubt", icon("brain", 22));
+  setHTML("fc-history", icon("chart", 22));
   setHTML("error-icon", icon("alert", 48));
   setHTML("mode-icon-school", icon("book", 28));
   setHTML("mode-icon-competitive", icon("trophy", 28));
@@ -109,7 +108,6 @@ function injectIcons() {
   setHTML("ds-streak-icon", icon("flame", 20));
   setHTML("ds-tests-icon", icon("target", 20));
   setHTML("ds-avg-icon", icon("trending", 20));
-  setHTML("rank-podium-icon", icon("trophy", 22));
 
   setHTML("me-xp-icon", icon("zap", 20));
   setHTML("me-streak-icon", icon("flame", 20));
@@ -118,6 +116,22 @@ function injectIcons() {
   setHTML("btn-notif-back", icon("arrowLeft", 18));
   setHTML("btn-adm-back", icon("arrowLeft", 18));
   setHTML("adm-save-icon", icon("check", 18));
+
+  setHTML("btn-rh-back", icon("arrowLeft", 18));
+  setHTML("btn-sp-back", icon("arrowLeft", 18));
+  setHTML("btn-badges-back", icon("arrowLeft", 18));
+  setHTML("btn-notes-back", icon("arrowLeft", 18));
+  setHTML("btn-nv-back", icon("arrowLeft", 18));
+  setHTML("btn-fc-back", icon("arrowLeft", 18));
+  setHTML("btn-doubt-back", icon("arrowLeft", 18));
+
+  setHTML("m1", icon("chart", 20));
+  setHTML("m2", icon("book", 20));
+  setHTML("m3", icon("award", 20));
+  setHTML("m4", icon("book", 20));
+  setHTML("m5", icon("star", 20));
+  setHTML("m6", icon("brain", 20));
+  setHTML("m7", icon("package", 20));
 
   document.querySelectorAll(".nav-item [data-icon]").forEach((el) => {
     el.innerHTML = ICONS[el.dataset.icon] || "";
@@ -457,9 +471,12 @@ async function showHome() {
 
   Screen.show("home");
 
-  Dashboard.load().then(() => Dashboard.render());
+  await Dashboard.load();
+  Dashboard.render();
+  DailyChallenge.load();
   updateNotifBadge();
   Notifications.checkDailyReminder();
+  Badges.load().then(() => Badges.checkAndUnlock());
 }
 
 async function updateNotifBadge() {
@@ -510,6 +527,10 @@ document.addEventListener("click", (e) => {
   else if (t === "rank") Leaderboard.open();
   else if (t === "me") openMe();
   else if (t === "test") ExamSetup.open();
+  else if (t === "notes") Notes.open();
+  else if (t === "flashcards") Flashcards.open();
+  else if (t === "doubts") Doubts.open();
+  else if (t === "history") ResultsHistory.open();
 });
 
 document.addEventListener("click", (e) => {
@@ -560,31 +581,4 @@ document.addEventListener("click", (e) => {
   const chip = e.target.closest(".cat-chip");
   if (!chip) return;
   Shop.currentCat = chip.dataset.cat;
-  renderShopCats();
-  renderProducts();
-});
-
-document.addEventListener("input", (e) => {
-  if (e.target.id === "shop-search") renderProducts();
-});
-
-function renderProducts() {
-  const list = Shop.getFiltered();
-  const featured = Shop.getFeatured();
-
-  const fsec = document.getElementById("featured-section");
-  if (featured.length) {
-    fsec.style.display = "block";
-    setHTML("featured-list", featured.map(Shop.featuredCardHTML).join(""));
-  } else fsec.style.display = "none";
-
-  if (!list.length) {
-    setHTML("products-grid", `<div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--muted);">
-      कोई product नहीं मिला</div>`);
-  } else {
-    setHTML("products-grid", list.map(Shop.productCardHTML).join(""));
-  }
-}
-
-document.addEventListener("click", (e) => {
-  
+  renderShopCat
