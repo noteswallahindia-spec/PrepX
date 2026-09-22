@@ -1,458 +1,327 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#6C5CE7" />
-  <title>PreX — AI Test App</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#6C5CE7" />
+<title>PreX — AI Test App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <!-- SPLASH -->
-  <div id="splash" class="screen active">
-    <div class="splash-inner">
-      <div class="logo-big" id="splash-logo"></div>
-      <h1 class="splash-title">PreX</h1>
-      <p class="splash-sub">AI Test App for Students</p>
-      <div class="loader-bar"><div class="loader-fill"></div></div>
-    </div>
+<!-- SPLASH -->
+<div id="splash" class="screen active">
+  <div class="splash-inner">
+    <div class="logo-big" id="splash-logo"></div>
+    <h1 class="splash-title">PreX</h1>
+    <p class="splash-sub">AI Test App for Students</p>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
   </div>
+</div>
 
-  <!-- WELCOME -->
-  <div id="welcome" class="screen">
-    <div class="welcome-wrap">
-      <div class="welcome-icon" id="welcome-icon"></div>
-      <h1 class="welcome-title">Welcome to PreX</h1>
-      <p class="welcome-text">AI से बने mock papers, instant result, और certificate — सब एक ऐप में.</p>
-      <div class="feature-list">
-        <div class="feature-item"><span class="feature-dot"></span><span>AI हर बार नया paper बनाएगा</span></div>
-        <div class="feature-item"><span class="feature-dot"></span><span>MCQ + Subjective दोनों</span></div>
-        <div class="feature-item"><span class="feature-dot"></span><span>Instant result + certificate</span></div>
+<!-- WELCOME -->
+<div id="welcome" class="screen flex">
+  <div class="welcome-wrap">
+    <div class="welcome-icon" id="welcome-icon"></div>
+    <h1 class="welcome-title">Welcome to PreX</h1>
+    <p class="welcome-text">AI से बने mock papers, instant result, और certificate — सब एक ऐप में.</p>
+    <div class="feature-list">
+      <div class="feature-item"><span class="feature-dot"></span><span>AI हर बार नया paper बनाएगा</span></div>
+      <div class="feature-item"><span class="feature-dot"></span><span>MCQ + Subjective दोनों</span></div>
+      <div class="feature-item"><span class="feature-dot"></span><span>Instant result + certificate</span></div>
+    </div>
+    <button class="btn-primary" id="btn-get-started">
+      <span>Get Started</span>
+      <span class="btn-icon" id="welcome-arrow"></span>
+    </button>
+  </div>
+</div>
+
+<!-- AUTH -->
+<div id="auth" class="screen">
+  <div class="auth-wrap">
+    <button class="back-btn" id="btn-auth-back"></button>
+    <div class="auth-header">
+      <h2 id="auth-title">Login</h2>
+      <p id="auth-sub">अपना account access करो</p>
+    </div>
+    <div class="tab-switch">
+      <button class="tab active" data-tab="login">Login</button>
+      <button class="tab" data-tab="signup">Signup</button>
+    </div>
+    <form id="auth-form">
+      <div class="input-group" id="name-group" style="display:none;">
+        <label>नाम</label>
+        <div class="input-wrap">
+          <span class="input-icon" id="icon-name"></span>
+          <input type="text" id="inp-name" placeholder="तुम्हारा नाम" />
+        </div>
       </div>
-      <button class="btn-primary" id="btn-get-started">
-        <span>Get Started</span>
-        <span class="btn-icon" id="welcome-arrow"></span>
+      <div class="input-group">
+        <label>Email</label>
+        <div class="input-wrap">
+          <span class="input-icon" id="icon-mail"></span>
+          <input type="email" id="inp-email" placeholder="you@example.com" required />
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <div class="input-wrap">
+          <span class="input-icon" id="icon-lock"></span>
+          <input type="password" id="inp-password" placeholder="कम से कम 6 characters" required />
+          <button type="button" class="eye-btn" id="btn-eye"></button>
+        </div>
+      </div>
+      <div class="auth-error" id="auth-error"></div>
+      <button type="submit" class="btn-primary" id="btn-auth-submit">
+        <span id="auth-submit-text">Login</span>
+      </button>
+    </form>
+    <div class="divider"><span>या</span></div>
+    <button class="btn-social" id="btn-google">
+      <span class="social-icon" id="icon-google"></span>
+      <span>Continue with Google</span>
+    </button>
+    <button class="btn-social guest" id="btn-guest">
+      <span class="social-icon" id="icon-guest"></span>
+      <span>Continue as Guest</span>
+    </button>
+    <p class="guest-note">Guest mode में data सिर्फ तुम्हारे phone में save होगा</p>
+  </div>
+</div>
+
+<!-- SETUP MODE -->
+<div id="setup-mode" class="screen">
+  <div class="setup-wrap">
+    <div class="setup-header">
+      <h2>किसके लिए तैयारी कर रहे हो?</h2>
+      <p>हम तुम्हारे हिसाब से paper बनाएँगे</p>
+    </div>
+    <div class="mode-grid">
+      <button class="mode-card" data-mode="school">
+        <div class="mode-icon" id="mode-icon-school"></div>
+        <div class="mode-title">School</div>
+        <div class="mode-sub">Class 6-12 • CBSE/ICSE/State</div>
+      </button>
+      <button class="mode-card" data-mode="competitive">
+        <div class="mode-icon" id="mode-icon-competitive"></div>
+        <div class="mode-title">Competitive Exam</div>
+        <div class="mode-sub">JEE • NEET • UPSC • SSC • और भी</div>
       </button>
     </div>
   </div>
+</div>
 
-  <!-- AUTH -->
-  <div id="auth" class="screen">
-    <div class="auth-wrap">
-      <button class="back-btn" id="btn-auth-back"></button>
-      <div class="auth-header">
-        <h2 id="auth-title">Login</h2>
-        <p id="auth-sub">अपना account access करो</p>
-      </div>
-      <div class="tab-switch">
-        <button class="tab active" data-tab="login">Login</button>
-        <button class="tab" data-tab="signup">Signup</button>
-      </div>
-      <form id="auth-form" autocomplete="off">
-        <div class="input-group" id="name-group" style="display:none;">
-          <label>नाम</label>
-          <div class="input-wrap">
-            <span class="input-icon" id="icon-name"></span>
-            <input type="text" id="inp-name" placeholder="तुम्हारा नाम" />
-          </div>
-        </div>
-        <div class="input-group">
-          <label>Email</label>
-          <div class="input-wrap">
-            <span class="input-icon" id="icon-mail"></span>
-            <input type="email" id="inp-email" placeholder="you@example.com" required />
-          </div>
-        </div>
-        <div class="input-group">
-          <label>Password</label>
-          <div class="input-wrap">
-            <span class="input-icon" id="icon-lock"></span>
-            <input type="password" id="inp-password" placeholder="कम से कम 6 characters" required />
-            <button type="button" class="eye-btn" id="btn-eye"></button>
-          </div>
-        </div>
-        <div class="auth-error" id="auth-error"></div>
-        <button type="submit" class="btn-primary" id="btn-auth-submit">
-          <span id="auth-submit-text">Login</span>
-        </button>
-      </form>
-      <div class="divider"><span>या</span></div>
-      <button class="btn-social google" id="btn-google">
-        <span class="social-icon" id="icon-google"></span>
-        <span>Continue with Google</span>
-      </button>
-      <button class="btn-social guest" id="btn-guest">
-        <span class="social-icon" id="icon-guest"></span>
-        <span>Continue as Guest</span>
-      </button>
-      <p class="guest-note">Guest mode में data सिर्फ तुम्हारे phone में save होगा</p>
+<!-- SETUP SCHOOL -->
+<div id="setup-school" class="screen">
+  <div class="setup-wrap">
+    <div class="setup-header">
+      <h2>अपनी details भरो</h2>
+      <p>इससे AI तुम्हारे लिए सही paper बनाएगा</p>
+    </div>
+    <div class="step-indicator">
+      <div class="step active" data-step="1"></div>
+      <div class="step" data-step="2"></div>
+      <div class="step" data-step="3"></div>
+    </div>
+    <div class="setup-step active" data-step="1">
+      <h3>तुम किस class में हो?</h3>
+      <div class="chip-grid" id="class-grid"></div>
+    </div>
+    <div class="setup-step" data-step="2">
+      <h3>तुम्हारा board कौनसा है?</h3>
+      <div class="chip-grid" id="board-grid"></div>
+    </div>
+    <div class="setup-step" data-step="3">
+      <h3>तुम किस भाषा में पढ़ना पसंद करते हो?</h3>
+      <div class="chip-grid" id="lang-grid"></div>
+    </div>
+    <button class="btn-primary" id="btn-setup-next">
+      <span id="setup-next-text">Next</span>
+      <span class="btn-icon" id="setup-arrow"></span>
+    </button>
+  </div>
+</div>
+
+<!-- SETUP COMPETITIVE -->
+<div id="setup-comp" class="screen">
+  <div class="setup-wrap">
+    <div class="setup-header">
+      <h2>कौनसा exam?</h2>
+      <p>Category चुनो, फिर exam</p>
+    </div>
+    <div id="comp-cat-view">
+      <div class="cat-list" id="comp-cat-list"></div>
+    </div>
+    <div id="comp-exam-view" style="display:none;">
+      <button class="back-btn" id="btn-comp-back"></button>
+      <h3 class="cat-title" id="comp-cat-title">—</h3>
+      <div class="cat-list" id="comp-exam-list"></div>
+    </div>
+    <div id="comp-lang-view" style="display:none;">
+      <h3 class="cat-title">भाषा चुनो</h3>
+      <div class="chip-grid" id="comp-lang-grid"></div>
     </div>
   </div>
+</div>
 
-  <!-- SETUP MODE -->
-  <div id="setup-mode" class="screen">
-    <div class="setup-wrap">
-      <div class="setup-header">
-        <h2>किसके लिए तैयारी कर रहे हो?</h2>
-        <p>हम तुम्हारे हिसाब से paper बनाएँगे</p>
-      </div>
-      <div class="mode-grid">
-        <button class="mode-card" data-mode="school">
-          <div class="mode-icon" id="mode-icon-school"></div>
-          <div class="mode-title">School</div>
-          <div class="mode-sub">Class 6-12 • CBSE/ICSE/State</div>
-        </button>
-        <button class="mode-card" data-mode="competitive">
-          <div class="mode-icon" id="mode-icon-competitive"></div>
-          <div class="mode-title">Competitive Exam</div>
-          <div class="mode-sub">JEE • NEET • UPSC • SSC • और भी</div>
-        </button>
+<!-- HOME -->
+<div id="home" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <div class="mini-logo" id="header-logo"></div>
+      <div>
+        <div class="greet" id="greet-name">नमस्ते</div>
+        <div class="greet-sub" id="greet-sub">Ready to learn?</div>
       </div>
     </div>
+    <button class="icon-btn" id="btn-logout"></button>
   </div>
-
-  <!-- SETUP SCHOOL -->
-  <div id="setup-school" class="screen">
-    <div class="setup-wrap">
-      <div class="setup-header">
-        <h2>अपनी details भरो</h2>
-        <p>इससे AI तुम्हारे लिए सही paper बनाएगा</p>
+  <div class="home-content">
+    <div class="profile-card">
+      <div class="pc-row"><span class="pc-label">Mode</span><span class="pc-value" id="pc-mode">—</span></div>
+      <div class="pc-row"><span class="pc-label" id="pc-label-1">Class</span><span class="pc-value" id="pc-value-1">—</span></div>
+      <div class="pc-row"><span class="pc-label" id="pc-label-2">Board</span><span class="pc-value" id="pc-value-2">—</span></div>
+    </div>
+    <button class="cta-big" id="btn-start-test">
+      <div class="cta-icon" id="cta-icon"></div>
+      <div class="cta-text">
+        <div class="cta-title">Start New Test</div>
+        <div class="cta-sub">AI fresh paper बनाएगा</div>
       </div>
-      <div class="step-indicator">
-        <div class="step active" data-step="1"></div>
-        <div class="step" data-step="2"></div>
-        <div class="step" data-step="3"></div>
-      </div>
-      <div class="setup-step active" data-step="1">
-        <h3>तुम किस class में हो?</h3>
-        <div class="chip-grid" id="class-grid"></div>
-      </div>
-      <div class="setup-step" data-step="2">
-        <h3>तुम्हारा board कौनसा है?</h3>
-        <div class="chip-grid" id="board-grid"></div>
-      </div>
-      <div class="setup-step" data-step="3">
-        <h3>तुम किस भाषा में पढ़ना पसंद करते हो?</h3>
-        <div class="chip-grid" id="lang-grid"></div>
-      </div>
-      <button class="btn-primary" id="btn-setup-next">
-        <span id="setup-next-text">Next</span>
-        <span class="btn-icon" id="setup-arrow"></span>
-      </button>
+      <div class="cta-arrow" id="cta-arrow"></div>
+    </button>
+    <div class="section-title">Quick Access</div>
+    <div class="feature-grid">
+      <div class="feature-card" data-nav="test"><div class="fc-icon" id="fc1"></div><div class="fc-title">Start Test</div><div class="fc-sub">AI Paper</div></div>
+      <div class="feature-card" data-nav="shop"><div class="fc-icon" id="fc2"></div><div class="fc-title">Shop</div><div class="fc-sub">Books & More</div></div>
+      <div class="feature-card" data-nav="rank"><div class="fc-icon" id="fc3"></div><div class="fc-title">Leaderboard</div><div class="fc-sub">Coming Soon</div></div>
+      <div class="feature-card" data-nav="me"><div class="fc-icon" id="fc4"></div><div class="fc-title">My Profile</div><div class="fc-sub">Settings</div></div>
     </div>
   </div>
+</div>
 
-  <!-- SETUP COMPETITIVE -->
-  <div id="setup-comp" class="screen">
-    <div class="setup-wrap">
-      <div class="setup-header">
-        <h2>कौनसा exam?</h2>
-        <p>Category चुनो, फिर exam</p>
-      </div>
-      <div id="comp-cat-view">
-        <div class="cat-list" id="comp-cat-list"></div>
-      </div>
-      <div id="comp-exam-view" style="display:none;">
-        <button class="back-btn" id="btn-comp-back"></button>
-        <h3 class="cat-title" id="comp-cat-title">—</h3>
-        <div class="cat-list" id="comp-exam-list"></div>
-      </div>
-      <div id="comp-lang-view" style="display:none;">
-        <h3 class="cat-title">भाषा चुनो</h3>
-        <div class="chip-grid" id="comp-lang-grid"></div>
+<!-- SHOP -->
+<div id="shop" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <div class="mini-logo" id="shop-logo"></div>
+      <div>
+        <div class="greet">Shop</div>
+        <div class="greet-sub">Study essentials, curated for you</div>
       </div>
     </div>
   </div>
-
-  <!-- HOME -->
-  <div id="home" class="screen">
-    <div class="app-header">
-      <div class="header-left">
-        <div class="mini-logo" id="header-logo"></div>
-        <div>
-          <div class="greet" id="greet-name">नमस्ते</div>
-          <div class="greet-sub" id="greet-sub">Ready to learn?</div>
-        </div>
-      </div>
-      <button class="icon-btn" id="btn-logout" title="Logout"></button>
+  <div class="home-content">
+    <div class="search-bar">
+      <span class="icon" id="shop-search-icon"></span>
+      <input id="shop-search" placeholder="Books, gadgets, stationery..." />
     </div>
-    <div class="home-content">
-      <div class="card profile-card">
-        <div class="pc-row"><span class="pc-label">Mode</span><span class="pc-value" id="pc-mode">—</span></div>
-        <div class="pc-row"><span class="pc-label" id="pc-label-1">Class</span><span class="pc-value" id="pc-value-1">—</span></div>
-        <div class="pc-row"><span class="pc-label" id="pc-label-2">Board</span><span class="pc-value" id="pc-value-2">—</span></div>
-      </div>
-      <button class="cta-big" id="btn-start-test">
-        <div class="cta-icon" id="cta-icon"></div>
-        <div class="cta-text">
-          <div class="cta-title">Start New Test</div>
-          <div class="cta-sub">AI fresh paper बनाएगा</div>
-        </div>
-        <div class="cta-arrow" id="cta-arrow"></div>
-      </button>
-      <div class="section-title">Quick Access</div>
-      <div class="feature-grid">
-        <div class="feature-card" onclick="alert('Part 8')"><div class="fc-icon" id="fc1"></div><div class="fc-title">Mock Papers</div><div class="fc-sub">Part 8</div></div>
-        <div class="feature-card" onclick="alert('Part 8')"><div class="fc-icon" id="fc2"></div><div class="fc-title">PYQ Bank</div><div class="fc-sub">Part 8</div></div>
-        <div class="feature-card" onclick="alert('Part 7')"><div class="fc-icon" id="fc3"></div><div class="fc-title">Leaderboard</div><div class="fc-sub">Part 7</div></div>
-        <div class="feature-card" onclick="alert('Part 5')"><div class="fc-icon" id="fc4"></div><div class="fc-title">My Results</div><div class="fc-sub">Part 5</div></div>
-      </div>
+    <div class="cat-chips" id="shop-cats"></div>
+    <div id="featured-section">
+      <div class="section-title">Featured</div>
+      <div class="featured-scroll" id="featured-list"></div>
     </div>
-    <div class="bottom-nav">
-      <button class="nav-item active" data-nav="home"></button>
-      <button class="nav-item" data-nav="test"></button>
-      <button class="nav-item" data-nav="rank"></button>
-      <button class="nav-item" data-nav="me"></button>
-    </div>
+    <div class="section-title">All Products</div>
+    <div class="products-grid" id="products-grid"></div>
   </div>
+</div>
 
-  <!-- EXAM SETUP -->
-  <div id="exam-setup" class="screen">
-    <div class="exam-setup-wrap">
-      <div class="exam-header">
-        <button class="back-btn" id="btn-exam-back"></button>
-        <h2>Test Setup</h2>
-        <div style="width:42px;"></div>
-      </div>
-      <div class="form-section">
-        <label class="form-label">Subject</label>
-        <select id="es-subject" class="select-input"></select>
-      </div>
-      <div class="form-section">
-        <label class="form-label">Chapters</label>
-        <div class="chapter-list" id="es-chapters"></div>
-        <button class="link-btn" id="btn-select-all">Select all</button>
-      </div>
-      <div class="form-section">
-        <label class="form-label">Test Type</label>
-        <div class="option-row" id="es-type">
-          <button class="opt-chip" data-val="mcq">MCQ Only</button>
-          <button class="opt-chip active" data-val="mixed">MCQ + Subjective</button>
-          <button class="opt-chip" data-val="subjective">Subjective</button>
-        </div>
-      </div>
-      <div class="form-section">
-        <label class="form-label">Difficulty</label>
-        <div class="option-row" id="es-diff">
-          <button class="opt-chip" data-val="easy">Easy</button>
-          <button class="opt-chip active" data-val="medium">Medium</button>
-          <button class="opt-chip" data-val="hard">Hard</button>
-        </div>
-      </div>
-      <div class="form-section">
-        <label class="form-label">Number of Questions</label>
-        <div class="option-row" id="es-count">
-          <button class="opt-chip" data-val="5">5</button>
-          <button class="opt-chip active" data-val="10">10</button>
-          <button class="opt-chip" data-val="15">15</button>
-          <button class="opt-chip" data-val="20">20</button>
-        </div>
-      </div>
-      <div class="form-section">
-        <label class="form-label">Duration (minutes)</label>
-        <div class="option-row" id="es-dur">
-          <button class="opt-chip" data-val="15">15</button>
-          <button class="opt-chip active" data-val="30">30</button>
-          <button class="opt-chip" data-val="60">60</button>
-          <button class="opt-chip" data-val="90">90</button>
-        </div>
-      </div>
-      <button class="btn-primary btn-generate" id="btn-generate">
-        <span id="btn-generate-icon"></span>
-        <span id="btn-generate-text">Generate Test with AI</span>
-      </button>
-    </div>
+<!-- PRODUCT DETAIL -->
+<div id="product-detail" class="screen app-screen">
+  <div class="app-header">
+    <button class="back-btn" id="btn-pd-back" style="margin-bottom:0;"></button>
+    <div class="greet" style="flex:1;text-align:center;">Product</div>
+    <div style="width:42px;"></div>
   </div>
+  <div class="home-content" id="pd-content"></div>
+</div>
 
-  <!-- GENERATING -->
-  <div id="generating" class="screen">
-    <div class="gen-wrap">
-      <div class="gen-icon" id="gen-icon"></div>
-      <h2 class="gen-title">AI पेपर बना रहा है</h2>
-      <p class="gen-sub" id="gen-sub">कृपया प्रतीक्षा करें...</p>
-      <div class="gen-bar"><div class="gen-bar-fill" id="gen-fill"></div></div>
-      <div class="gen-status" id="gen-status">Starting...</div>
-    </div>
-  </div>
-
-  <!-- PAPER PREVIEW -->
-  <div id="paper" class="screen">
-    <div class="paper-wrap">
-      <div class="exam-header">
-        <button class="back-btn" id="btn-paper-back"></button>
-        <h2 id="paper-title">Test Paper</h2>
-        <div style="width:42px;"></div>
-      </div>
-      <div class="paper-info" id="paper-info"></div>
-      <div class="paper-questions" id="paper-questions"></div>
-      <div class="paper-actions">
-        <button class="btn-secondary" id="btn-regen">
-          <span id="regen-icon"></span>
-          <span>नया Paper</span>
-        </button>
-        <button class="btn-primary" id="btn-start-exam">
-          <span>Start Exam</span>
-          <span class="btn-icon" id="start-arrow"></span>
-        </button>
+<!-- RANK -->
+<div id="rank" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <div class="mini-logo" id="rank-logo"></div>
+      <div>
+        <div class="greet">Leaderboard</div>
+        <div class="greet-sub">Coming soon</div>
       </div>
     </div>
   </div>
-
-  <!-- ==================== EXAM ROOM ==================== -->
-  <div id="exam-room" class="screen">
-    <div class="exam-room-wrap">
-
-      <!-- Top bar: Timer + Exit + Palette toggle -->
-      <div class="er-topbar">
-        <button class="er-icon-btn" id="btn-er-exit" title="Exit"></button>
-        <div class="er-timer" id="er-timer">
-          <span class="er-timer-icon" id="er-timer-icon"></span>
-          <span class="er-timer-text" id="er-timer-text">00:00</span>
-        </div>
-        <button class="er-icon-btn" id="btn-er-palette" title="Questions"></button>
-      </div>
-
-      <!-- Progress bar -->
-      <div class="er-progress">
-        <div class="er-progress-fill" id="er-progress-fill"></div>
-      </div>
-
-      <!-- Question area -->
-      <div class="er-body" id="er-body">
-        <div class="er-q-header">
-          <span class="er-q-num" id="er-q-num">Q1 / 10</span>
-          <span class="er-q-marks" id="er-q-marks">1 mark</span>
-        </div>
-
-        <div class="er-q-type" id="er-q-type">MCQ</div>
-        <div class="er-q-text" id="er-q-text">Question will appear here</div>
-
-        <!-- MCQ options -->
-        <div class="er-options" id="er-options"></div>
-
-        <!-- Subjective input -->
-        <div class="er-subjective" id="er-subjective" style="display:none;">
-          <textarea id="er-answer-input" placeholder="अपना उत्तर यहाँ लिखो..." rows="8"></textarea>
-          <div class="er-word-count" id="er-word-count">0 words</div>
-        </div>
-      </div>
-
-      <!-- Bottom navigation -->
-      <div class="er-footer">
-        <button class="er-nav-btn" id="btn-er-prev">
-          <span id="er-prev-icon"></span>
-          <span>Prev</span>
-        </button>
-
-        <button class="er-mark-btn" id="btn-er-mark" title="Mark for review">
-          <span id="er-mark-icon"></span>
-        </button>
-
-        <button class="er-nav-btn primary" id="btn-er-next">
-          <span id="er-next-text">Next</span>
-          <span id="er-next-icon"></span>
-        </button>
-      </div>
-
+  <div class="home-content">
+    <div class="profile-card" style="text-align:center;padding:40px 20px;">
+      <div class="welcome-icon" style="margin:0 auto 20px;" id="rank-placeholder-icon"></div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:8px;">Leaderboard जल्द आएगा</div>
+      <div class="muted">Part 7 में पूरा leaderboard होगा</div>
     </div>
   </div>
+</div>
 
-  <!-- ==================== QUESTION PALETTE (drawer) ==================== -->
-  <div id="palette-drawer" class="palette-drawer">
-    <div class="palette-panel">
-      <div class="palette-header">
-        <h3>Questions</h3>
-        <button class="er-icon-btn" id="btn-palette-close"></button>
-      </div>
-
-      <div class="palette-legend">
-        <div class="legend-item"><span class="legend-dot answered"></span> Answered</div>
-        <div class="legend-item"><span class="legend-dot notanswered"></span> Not answered</div>
-        <div class="legend-item"><span class="legend-dot marked"></span> Marked</div>
-        <div class="legend-item"><span class="legend-dot visited"></span> Visited</div>
-        <div class="legend-item"><span class="legend-dot"></span> Not visited</div>
-      </div>
-
-      <div class="palette-grid" id="palette-grid"></div>
-
-      <div class="palette-summary" id="palette-summary">
-        <div><strong>Answered:</strong> <span id="sum-answered">0</span></div>
-        <div><strong>Not answered:</strong> <span id="sum-notanswered">0</span></div>
-        <div><strong>Marked:</strong> <span id="sum-marked">0</span></div>
-      </div>
-
-      <button class="btn-primary" id="btn-submit-from-palette">Submit Test</button>
-    </div>
-  </div>
-
-  <!-- ==================== SUBMIT CONFIRM ==================== -->
-  <div id="submit-confirm" class="modal-overlay">
-    <div class="modal-box">
-      <div class="modal-icon" id="submit-modal-icon"></div>
-      <h3 class="modal-title">Test Submit करें?</h3>
-      <p class="modal-text">Submit के बाद answer change नहीं हो सकेगा.</p>
-
-      <div class="submit-stats" id="submit-stats"></div>
-
-      <div class="modal-actions">
-        <button class="btn-secondary" id="btn-cancel-submit">Cancel</button>
-        <button class="btn-primary" id="btn-confirm-submit">
-          <span id="confirm-icon"></span>
-          <span>Submit Test</span>
-        </button>
+<!-- ME -->
+<div id="me" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <div class="mini-logo" id="me-logo"></div>
+      <div>
+        <div class="greet">Profile</div>
+        <div class="greet-sub">Your account</div>
       </div>
     </div>
   </div>
-
-  <!-- ==================== EXIT CONFIRM ==================== -->
-  <div id="exit-confirm" class="modal-overlay">
-    <div class="modal-box">
-      <div class="modal-icon warn" id="exit-modal-icon"></div>
-      <h3 class="modal-title">Test छोड़ना है?</h3>
-      <p class="modal-text">तुम्हारा progress save नहीं होगा. पक्का छोड़ना है?</p>
-      <div class="modal-actions">
-        <button class="btn-secondary" id="btn-cancel-exit">रुको</button>
-        <button class="btn-primary danger" id="btn-confirm-exit">हाँ, छोड़ो</button>
-      </div>
+  <div class="home-content">
+    <div class="profile-card" style="text-align:center;padding:30px 20px;">
+      <div style="width:80px;height:80px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:32px;font-weight:800;" id="me-avatar">P</div>
+      <div style="font-size:18px;font-weight:700;" id="me-name">Student</div>
+      <div class="muted" id="me-sub" style="margin-top:4px;">—</div>
     </div>
-  </div>
-
-  <!-- ==================== TIME UP ==================== -->
-  <div id="timeup" class="modal-overlay">
-    <div class="modal-box">
-      <div class="modal-icon warn" id="timeup-icon"></div>
-      <h3 class="modal-title">समय समाप्त!</h3>
-      <p class="modal-text">तुम्हारा test auto-submit हो रहा है...</p>
-      <button class="btn-primary" id="btn-timeup-continue">ठीक है</button>
+    <div class="profile-card">
+      <div class="pc-row"><span class="pc-label">Mode</span><span class="pc-value" id="me-mode">—</span></div>
+      <div class="pc-row"><span class="pc-label">Class / Exam</span><span class="pc-value" id="me-class">—</span></div>
+      <div class="pc-row"><span class="pc-label">Board / Lang</span><span class="pc-value" id="me-board">—</span></div>
     </div>
+    <button class="btn-social" id="btn-me-logout" style="background:#FFF1F1;border-color:#FFD5D5;color:var(--error);">
+      <span class="social-icon" id="me-logout-icon"></span>
+      <span>Logout</span>
+    </button>
   </div>
+</div>
 
-  <!-- ERROR -->
-  <div id="error" class="screen">
-    <div class="welcome-wrap">
-      <div class="welcome-icon error" id="error-icon"></div>
-      <h2>कुछ गड़बड़ हो गई</h2>
-      <p id="error-msg" class="muted">—</p>
-      <button class="btn-primary" onclick="location.reload()">दोबारा कोशिश करो</button>
-    </div>
+<!-- ERROR -->
+<div id="error" class="screen flex">
+  <div class="welcome-wrap">
+    <div class="welcome-icon error" id="error-icon"></div>
+    <h2 class="welcome-title">कुछ गड़बड़ हो गई</h2>
+    <p id="error-msg" class="muted" style="margin-bottom:20px;">—</p>
+    <button class="btn-primary" onclick="location.reload()">दोबारा कोशिश करो</button>
   </div>
+</div>
 
-  <!-- TOAST -->
-  <div id="toast" class="toast"></div>
+<!-- BOTTOM NAV -->
+<div class="bottom-nav" id="bottom-nav" style="display:none;">
+  <button class="nav-item" data-nav="home"><span class="icon" data-icon="home"></span><span class="nav-item-label">Home</span></button>
+  <button class="nav-item" data-nav="shop"><span class="icon" data-icon="bag"></span><span class="nav-item-label">Shop</span></button>
+  <button class="nav-item center" data-nav="test"><span class="nav-center-icon"><span class="icon" data-icon="plus" style="width:26px;height:26px;"></span></span><span class="nav-item-label">Test</span></button>
+  <button class="nav-item" data-nav="rank"><span class="icon" data-icon="trophy"></span><span class="nav-item-label">Rank</span></button>
+  <button class="nav-item" data-nav="me"><span class="icon" data-icon="user"></span><span class="nav-item-label">Me</span></button>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js"></script>
-  <script src="js/icons.js"></script>
-  <script src="js/supabase.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/guest.js"></script>
-  <script src="js/exams.js"></script>
-  <script src="js/ai.js"></script>
-  <script src="js/exam-room.js"></script>
-  <script src="js/app.js"></script>
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- App files (order matters) -->
+<script src="js/config.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/guest.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/exams.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
