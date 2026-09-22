@@ -38,7 +38,6 @@
   </div>
 </div>
 
-<!-- AUTH: Google हटाया -->
 <div id="auth" class="screen">
   <div class="auth-wrap">
     <button class="back-btn" id="btn-auth-back"></button>
@@ -201,6 +200,8 @@
       </div>
     </div>
 
+    <div id="daily-box"></div>
+
     <div class="profile-card">
       <div class="pc-row"><span class="pc-label">Mode</span><span class="pc-value" id="pc-mode">—</span></div>
       <div class="pc-row"><span class="pc-label" id="pc-label-1">Class</span><span class="pc-value" id="pc-value-1">—</span></div>
@@ -219,12 +220,28 @@
     <div class="section-title">Recent Tests</div>
     <div id="ds-recent"></div>
 
-    <div class="section-title">Quick Access</div>
+    <div class="section-title">Learning Tools</div>
     <div class="feature-grid">
-      <div class="feature-card" data-nav="test"><div class="fc-icon" id="fc1"></div><div class="fc-title">Start Test</div><div class="fc-sub">AI Paper</div></div>
-      <div class="feature-card" data-nav="shop"><div class="fc-icon" id="fc2"></div><div class="fc-title">Shop</div><div class="fc-sub">Books & More</div></div>
-      <div class="feature-card" data-nav="rank"><div class="fc-icon" id="fc3"></div><div class="fc-title">Leaderboard</div><div class="fc-sub">Rankings</div></div>
-      <div class="feature-card" data-nav="me"><div class="fc-icon" id="fc4"></div><div class="fc-title">My Profile</div><div class="fc-sub">Settings</div></div>
+      <div class="feature-card" data-nav="notes">
+        <div class="fc-icon" id="fc-notes"></div>
+        <div class="fc-title">AI Notes</div>
+        <div class="fc-sub">Topic से notes</div>
+      </div>
+      <div class="feature-card" data-nav="flashcards">
+        <div class="fc-icon" id="fc-flash"></div>
+        <div class="fc-title">Flashcards</div>
+        <div class="fc-sub">Quick revision</div>
+      </div>
+      <div class="feature-card" data-nav="doubts">
+        <div class="fc-icon" id="fc-doubt"></div>
+        <div class="fc-title">Ask AI</div>
+        <div class="fc-sub">Doubt solving</div>
+      </div>
+      <div class="feature-card" data-nav="history">
+        <div class="fc-icon" id="fc-history"></div>
+        <div class="fc-title">My Results</div>
+        <div class="fc-sub">History</div>
+      </div>
     </div>
   </div>
 </div>
@@ -327,8 +344,50 @@
       <div class="pc-row"><span class="pc-label">Board / Lang</span><span class="pc-value" id="me-board">—</span></div>
     </div>
 
+    <div class="section-title">My Stuff</div>
+
+    <button class="menu-btn" id="btn-results-history">
+      <span class="menu-icon" id="m1"></span>
+      <span class="menu-label">My Results</span>
+      <span class="menu-arrow">›</span>
+    </button>
+
+    <button class="menu-btn" id="btn-saved-papers">
+      <span class="menu-icon" id="m2"></span>
+      <span class="menu-label">Saved Papers</span>
+      <span class="menu-arrow">›</span>
+    </button>
+
+    <button class="menu-btn" id="btn-badges">
+      <span class="menu-icon" id="m3"></span>
+      <span class="menu-label">Badges & Achievements</span>
+      <span class="menu-arrow">›</span>
+    </button>
+
+    <div class="section-title">Study Tools</div>
+
+    <button class="menu-btn" id="btn-notes">
+      <span class="menu-icon" id="m4"></span>
+      <span class="menu-label">AI Notes</span>
+      <span class="menu-arrow">›</span>
+    </button>
+
+    <button class="menu-btn" id="btn-flashcards">
+      <span class="menu-icon" id="m5"></span>
+      <span class="menu-label">Flashcards</span>
+      <span class="menu-arrow">›</span>
+    </button>
+
+    <button class="menu-btn" id="btn-doubts">
+      <span class="menu-icon" id="m6"></span>
+      <span class="menu-label">Ask AI (Doubt)</span>
+      <span class="menu-arrow">›</span>
+    </button>
+
+    <div class="section-title">Other</div>
+
     <button class="menu-btn" id="btn-admin-shop">
-      <span class="menu-icon" id="me-menu-shop-icon"></span>
+      <span class="menu-icon" id="m7"></span>
       <span class="menu-label">Manage Shop</span>
       <span class="menu-arrow">›</span>
     </button>
@@ -337,6 +396,134 @@
       <span class="social-icon" id="me-logout-icon"></span>
       <span>Logout</span>
     </button>
+  </div>
+</div>
+
+<!-- RESULTS HISTORY -->
+<div id="results-history" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-rh-back" style="margin-bottom:0;"></button>
+      <div>
+        <div class="greet">My Results</div>
+        <div class="greet-sub">पिछले सारे tests</div>
+      </div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div id="rh-list"></div>
+  </div>
+</div>
+
+<!-- SAVED PAPERS -->
+<div id="saved-papers" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-sp-back" style="margin-bottom:0;"></button>
+      <div>
+        <div class="greet">Saved Papers</div>
+        <div class="greet-sub">बाद में attempt करो</div>
+      </div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div id="sp-list"></div>
+  </div>
+</div>
+
+<!-- BADGES -->
+<div id="badges" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-badges-back" style="margin-bottom:0;"></button>
+      <div>
+        <div class="greet">Badges</div>
+        <div class="greet-sub" id="badges-count">0 / 10</div>
+      </div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="badges-grid" id="badges-grid"></div>
+  </div>
+</div>
+
+<!-- NOTES -->
+<div id="notes" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-notes-back" style="margin-bottom:0;"></button>
+      <div>
+        <div class="greet">AI Notes</div>
+        <div class="greet-sub">Topic से notes बनाओ</div>
+      </div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="profile-card">
+      <input type="text" id="note-topic" class="select-input" placeholder="Topic (जैसे Photosynthesis)" style="margin-bottom:10px;"/>
+      <input type="text" id="note-subject" class="select-input" placeholder="Subject (optional)" style="margin-bottom:10px;"/>
+      <button class="btn-primary" id="btn-note-generate">Generate Notes</button>
+    </div>
+    <div class="section-title">My Notes</div>
+    <div id="notes-list"></div>
+  </div>
+</div>
+
+<!-- NOTE VIEW -->
+<div id="note-view" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-nv-back" style="margin-bottom:0;"></button>
+      <div>
+        <div class="greet" id="nv-topic">Note</div>
+        <div class="greet-sub" id="nv-subject"></div>
+      </div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="note-content" id="nv-content"></div>
+  </div>
+</div>
+
+<!-- FLASHCARDS -->
+<div id="flashcards" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-fc-back" style="margin-bottom:0;"></button>
+      <div>
+        <div class="greet">Flashcards</div>
+        <div class="greet-sub">Quick revision</div>
+      </div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="profile-card">
+      <input type="text" id="fc-topic" class="select-input" placeholder="Topic (जैसे Trigonometry)" style="margin-bottom:10px;"/>
+      <input type="text" id="fc-subject" class="select-input" placeholder="Subject (optional)" style="margin-bottom:10px;"/>
+      <button class="btn-primary" id="btn-fc-generate">Generate Flashcards</button>
+    </div>
+    <div id="fc-view"></div>
+  </div>
+</div>
+
+<!-- DOUBTS -->
+<div id="doubts" class="screen app-screen">
+  <div class="app-header">
+    <div class="header-left">
+      <button class="back-btn" id="btn-doubt-back" style="margin-bottom:0;"></button>
+      <div>
+        <div class="greet">Ask AI</div>
+        <div class="greet-sub">कोई भी doubt पूछो</div>
+      </div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="profile-card">
+      <textarea id="doubt-input" class="select-input" rows="3" placeholder="अपना सवाल यहाँ लिखो..." style="margin-bottom:10px;"></textarea>
+      <button class="btn-primary" id="btn-doubt-ask">Ask AI</button>
+    </div>
+    <div class="section-title">Past Doubts</div>
+    <div id="doubt-list"></div>
   </div>
 </div>
 
@@ -372,157 +559,4 @@
 
     <div class="form-section">
       <label class="form-label">Description</label>
-      <textarea id="adm-desc" class="select-input" rows="3" placeholder="Short description"></textarea>
-    </div>
-
-    <div class="form-section">
-      <label class="form-label">Category</label>
-      <input type="text" id="adm-cat" class="select-input" placeholder="books / stationery / gadgets / merch" />
-    </div>
-
-    <div class="form-section">
-      <label class="form-label">Image URLs (comma separated)</label>
-      <input type="text" id="adm-imgs" class="select-input" placeholder="https://...,https://..." />
-    </div>
-
-    <div class="form-section">
-      <label class="form-label">Price Text</label>
-      <input type="text" id="adm-price" class="select-input" placeholder="₹199 - ₹450" />
-    </div>
-
-    <div class="form-section">
-      <label class="form-label">Flipkart Link</label>
-      <input type="text" id="adm-fk" class="select-input" placeholder="https://flipkart.com/..." />
-    </div>
-
-    <div class="form-section">
-      <label class="form-label">Amazon Link</label>
-      <input type="text" id="adm-amz" class="select-input" placeholder="https://amazon.in/..." />
-    </div>
-
-    <div class="form-section">
-      <label class="form-label">Meesho Link</label>
-      <input type="text" id="adm-meesho" class="select-input" placeholder="https://meesho.com/..." />
-    </div>
-
-    <div class="form-section">
-      <label class="form-label">Other Store Link</label>
-      <input type="text" id="adm-other" class="select-input" placeholder="https://..." />
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:10px;margin-bottom:24px;">
-      <button class="btn-secondary" id="btn-adm-clear">Clear</button>
-      <button class="btn-primary" id="btn-adm-save">
-        <span id="adm-save-icon"></span>
-        <span>Save Product</span>
-      </button>
-    </div>
-
-    <div class="section-title">All Products</div>
-    <div id="adm-list"></div>
-  </div>
-</div>
-
-<div id="exam-setup" class="screen">
-  <div class="exam-setup-wrap">
-    <div class="exam-header">
-      <button class="back-btn" id="btn-exam-back" style="margin-bottom:0;"></button>
-      <h2>Test Setup</h2>
-      <div style="width:42px;"></div>
-    </div>
-
-    <div class="form-section">
-      <label class="form-label">Subject</label>
-      <select id="es-subject" class="select-input"></select>
-    </div>
-
-    <div class="form-section">
-      <label class="form-label">Chapters</label>
-      <div class="chapter-list" id="es-chapters"></div>
-      <button class="link-btn" id="btn-select-all">Select all</button>
-    </div>
-
-    <div class="form-section">
-      <label class="form-label">Test Type</label>
-      <div class="option-row" id="es-type">
-        <button class="opt-chip" data-val="mcq">MCQ Only</button>
-        <button class="opt-chip active" data-val="mixed">MCQ + Subjective</button>
-        <button class="opt-chip" data-val="subjective">Subjective</button>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <label class="form-label">Difficulty</label>
-      <div class="option-row" id="es-diff">
-        <button class="opt-chip" data-val="easy">Easy</button>
-        <button class="opt-chip active" data-val="medium">Medium</button>
-        <button class="opt-chip" data-val="hard">Hard</button>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <label class="form-label">Number of Questions</label>
-      <div class="option-row" id="es-count">
-        <button class="opt-chip" data-val="5">5</button>
-        <button class="opt-chip active" data-val="10">10</button>
-        <button class="opt-chip" data-val="15">15</button>
-        <button class="opt-chip" data-val="20">20</button>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <label class="form-label">Duration (minutes)</label>
-      <div class="option-row" id="es-dur">
-        <button class="opt-chip" data-val="15">15</button>
-        <button class="opt-chip active" data-val="30">30</button>
-        <button class="opt-chip" data-val="60">60</button>
-        <button class="opt-chip" data-val="90">90</button>
-      </div>
-    </div>
-
-    <button class="btn-primary btn-generate" id="btn-generate">
-      <span id="btn-generate-icon"></span>
-      <span>Generate Test with AI</span>
-    </button>
-  </div>
-</div>
-
-<div id="generating" class="screen flex">
-  <div class="gen-wrap">
-    <div class="gen-icon" id="gen-icon"></div>
-    <h2 class="gen-title">AI पेपर बना रहा है</h2>
-    <p class="gen-sub">कृपया प्रतीक्षा करें...</p>
-    <div class="gen-bar"><div class="gen-bar-fill" id="gen-fill"></div></div>
-    <div class="gen-status" id="gen-status">Starting...</div>
-  </div>
-</div>
-
-<div id="paper" class="screen">
-  <div class="paper-wrap">
-    <div class="exam-header">
-      <button class="back-btn" id="btn-paper-back" style="margin-bottom:0;"></button>
-      <h2 id="paper-title">Test Paper</h2>
-      <div style="width:42px;"></div>
-    </div>
-    <div class="paper-info" id="paper-info"></div>
-    <div class="paper-questions" id="paper-questions"></div>
-    <div class="paper-actions">
-      <button class="btn-secondary" id="btn-regen">नया Paper</button>
-      <button class="btn-primary" id="btn-start-exam">Start Exam</button>
-    </div>
-  </div>
-</div>
-
-<div id="exam-room" class="screen">
-  <div class="exam-room-wrap">
-    <div class="er-topbar">
-      <button class="er-icon-btn" id="btn-er-exit"></button>
-      <div class="er-timer" id="er-timer">
-        <span class="er-timer-icon" id="er-timer-icon"></span>
-        <span class="er-timer-text" id="er-timer-text">00:00</span>
-      </div>
-      <button class="er-icon-btn" id="btn-er-palette"></button>
-    </div>
-
-    <div class="er-progress">
-      <div class="er-progress-fi
+    
