@@ -3,8 +3,8 @@
 // ⚠️ सिर्फ यहीं Supabase keys paste करो
 // ============================================
 
-const SUPABASE_URL = "YOUR_SUPABASE_URL_HERE";
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY_HERE";
+const SUPABASE_URL = "https://edfyrktoumhopwlmbtdm.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_pWA9cRF-lfTy0FSlWSlyPg_7skIM51p";
 
 // ============================================
 // नीचे कुछ मत बदलो
