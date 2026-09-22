@@ -2,7 +2,7 @@
 // SUPABASE CLIENT
 // ============================================
 
-let supabase = null;
+var supabase = null;
 
 function initSupabase() {
   try {
