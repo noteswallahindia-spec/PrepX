@@ -1,17 +1,17 @@
-/* ============================================
-   GUEST MODE
-   सब data phone में store, Supabase पर सिर्फ count
-   ============================================ */
+// ============================================
+// GUEST MODE - phone में save, Supabase में सिर्फ count
+// ============================================
 
 const Guest = {
-  // Guest ID generate + save
+  idKey: "prex_guest_id",
+  flagKey: "prex_is_guest",
+  cacheKey: "prex_user_cache",
+
   init() {
-    let id = localStorage.getItem(APP_CONFIG.guestStorageKey);
+    let id = localStorage.getItem(this.idKey);
     if (!id) {
       id = "guest_" + Date.now() + "_" + Math.random().toString(36).slice(2, 9);
-      localStorage.setItem(APP_CONFIG.guestStorageKey, id);
-
-      // Supabase पर सिर्फ count increment (best effort)
+      localStorage.setItem(this.idKey, id);
       if (supabase) {
         supabase.rpc("increment_guest_count").then(() => {}).catch(() => {});
       }
@@ -19,44 +19,29 @@ const Guest = {
     return id;
   },
 
-  getId() {
-    return localStorage.getItem(APP_CONFIG.guestStorageKey);
-  },
+  getId() { return localStorage.getItem(this.idKey); },
+  isGuest() { return localStorage.getItem(this.flagKey) === "1"; },
 
-  isGuest() {
-    return localStorage.getItem(APP_CONFIG.guestFlagKey) === "1";
-  },
-
-  setGuest(flag) {
+  set(flag) {
     if (flag) {
-      localStorage.setItem(APP_CONFIG.guestFlagKey, "1");
+      localStorage.setItem(this.flagKey, "1");
       this.init();
     } else {
-      localStorage.removeItem(APP_CONFIG.guestFlagKey);
+      localStorage.removeItem(this.flagKey);
     }
   },
 
-  // Guest profile — phone में
-  saveProfile(profile) {
-    const data = {
-      ...profile,
-      id: this.getId(),
-      is_guest: true,
-      created_at: new Date().toISOString(),
-    };
-    localStorage.setItem(APP_CONFIG.userCacheKey, JSON.stringify(data));
-    return data;
+  save(profile) {
+    localStorage.setItem(this.cacheKey, JSON.stringify({ ...profile, is_guest: true }));
   },
 
-  getProfile() {
-    const raw = localStorage.getItem(APP_CONFIG.userCacheKey);
-    if (!raw) return null;
-    try { return JSON.parse(raw); } catch { return null; }
+  get() {
+    try { return JSON.parse(localStorage.getItem(this.cacheKey) || "null"); }
+    catch { return null; }
   },
 
   clear() {
-    localStorage.removeItem(APP_CONFIG.userCacheKey);
-    localStorage.removeItem(APP_CONFIG.guestFlagKey);
-    // guest ID नहीं हटाते — अगर वो दोबारा guest बनना चाहे
+    localStorage.removeItem(this.cacheKey);
+    localStorage.removeItem(this.flagKey);
   },
 };
