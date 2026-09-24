@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Live Teacher</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #101114;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .app {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* TOP BAR */
+
+        .topbar {
+            height: 65px;
+            background: #181a20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 1px solid #292c35;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .status {
+            color: #4ade80;
+            font-size: 14px;
+        }
+
+        /* MAIN */
+
+        .main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 15px;
+            padding: 15px;
+        }
+
+        /* VIDEO */
+
+        .video-box {
+            background: #191b21;
+            border-radius: 18px;
+            position: relative;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .robot {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(145deg, #30343d, #17191e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 85px;
+            box-shadow: 0 0 50px rgba(80, 150, 255, 0.25);
+        }
+
+        .robot-name {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,.55);
+            padding: 8px 14px;
+            border-radius: 10px;
+        }
+
+        /* WHITEBOARD */
+
+        .teacher-panel {
+            background: #191b21;
+            border-radius: 18px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .whiteboard {
+            flex: 1;
+            background: #fafafa;
+            color: #111;
+            border-radius: 12px;
+            padding: 25px;
+            min-height: 350px;
+        }
+
+        .whiteboard h2 {
+            margin-bottom: 15px;
+        }
+
+        .code {
+            background: #171717;
+            color: #80ff9b;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        /* CHAT */
+
+        .chat {
+            margin-top: 12px;
+            background: #22252c;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .message {
+            color: #ddd;
+            line-height: 1.5;
+        }
+
+        /* CONTROLS */
+
+        .controls {
+            height: 80px;
+            background: #181a20;
+            border-top: 1px solid #292c35;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 10px;
+        }
+
+        button {
+            border: none;
+            padding: 13px 20px;
+            border-radius: 12px;
+            background: #30343d;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #444954;
+        }
+
+        .talk {
+            background: #2563eb;
+        }
+
+        .talk:hover {
+            background: #1d4ed8;
+        }
+
+        .stop {
+            background: #dc2626;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            background: #30343d;
+            color: white;
+        }
+
+        @media (max-width: 800px) {
+
+            .main {
+                grid-template-columns: 1fr;
+            }
+
+            .video-box {
+                min-height: 350px;
+            }
+
+            .whiteboard {
+                min-height: 300px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <div class="logo">
+            🤖 AI Live Teacher
+        </div>
+
+        <div class="status">
+            ● LIVE
+        </div>
+
+    </div>
+
+
+    <!-- MAIN AREA -->
+
+    <div class="main">
+
+        <!-- AI VIDEO -->
+
+        <div class="video-box">
+
+            <div class="robot">
+                🤖
+            </div>
+
+            <div class="robot-name">
+                AI Teacher
+            </div>
+
+        </div>
+
+
+        <!-- TEACHER PANEL -->
+
+        <div class="teacher-panel">
+
+            <div class="panel-title">
+                🧑‍🏫 Virtual Whiteboard
+            </div>
+
+            <div class="whiteboard">
+
+                <h2>HTML Basics</h2>
+
+                <p>
+                    चलो बिल्कुल शुरुआत से सीखते हैं।
+                </p>
+
+                <br>
+
+                <p>
+                    HTML webpage की structure बनाने के लिए इस्तेमाल होता है।
+                </p>
+
+                <br>
+
+                <div class="code">
+                    &lt;html&gt;<br>
+                    &nbsp;&nbsp;&lt;body&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Hello World&lt;/h1&gt;<br>
+                    &nbsp;&nbsp;&lt;/body&gt;<br>
+                    &lt;/html&gt;
+                </div>
+
+            </div>
+
+
+            <!-- AI MESSAGE -->
+
+            <div class="chat">
+
+                <div class="message" id="message">
+                    🤖 Okay bro! बताओ, आज क्या सीखना है?
+                </div>
+
+                <div class="input-area">
+
+                    <input
+                        id="question"
+                        type="text"
+                        placeholder="अपना सवाल लिखो..."
+                    >
+
+                    <button onclick="askAI()">
+                        पूछो
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONTROLS -->
+
+    <div class="controls">
+
+        <button class="talk" onclick="startTalking()">
+            🎙️ बोलना शुरू
+        </button>
+
+        <button onclick="pauseTeacher()">
+            ⏸️ Pause
+        </button>
+
+        <button class="stop" onclick="stopTeacher()">
+            ⛔ Stop
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function askAI() {
+
+        const input = document.getElementById("question");
+
+        const message = document.getElementById("message");
+
+        const question = input.value.trim();
+
+        if (question === "") {
+            return;
+        }
+
+        message.innerHTML =
+            "🤖 समझ गया bro! तुम्हारा सवाल है: <b>" +
+            question +
+            "</b><br><br>" +
+            "अभी मैं तुम्हें समझाने के लिए तैयार हूँ। अगले part में असली AI जोड़ेंगे।";
+
+        input.value = "";
+
+    }
+
+
+    function startTalking() {
+
+        const message = document.getElementById("message");
+
+        message.innerHTML =
+            "🤖 हाँ bro, मैं सुन रहा हूँ। बोलो, क्या सीखना है?";
+
+    }
+
+
+    function pauseTeacher() {
+
+        const message = document.getElementById("message");
+
+        message.innerHTML =
+            "⏸️ ठीक है bro, मैंने teaching pause कर दी है।";
+
+    }
+
+
+    function stopTeacher() {
+
+        const message = document.getElementById("message");
+
+        message.innerHTML =
+            "⛔ Teaching session बंद है। फिर से शुरू करने के लिए बोलना शुरू दबाओ।";
+
+    }
+
+</script>
+
+</body>
+</html>
